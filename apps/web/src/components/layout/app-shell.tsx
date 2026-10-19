@@ -3,6 +3,7 @@
 import type { Permission } from '@efed/shared';
 import {
   ArrowLeftRight,
+  Gamepad2,
   LayoutDashboard,
   type LucideIcon,
   Menu,
@@ -41,6 +42,12 @@ const NAVIGATION: Record<Area, { label: string; items: NavItem[] }> = {
     label: 'Área do jogador',
     items: [
       { href: '/painel', label: 'Visão geral', icon: LayoutDashboard, exact: true },
+      {
+        href: '/painel/perfil',
+        label: 'Perfil de jogador',
+        icon: Gamepad2,
+        permission: 'player_profile.manage',
+      },
       { href: '/painel/conta', label: 'Minha conta', icon: UserRound },
       { href: '/painel/seguranca', label: 'Segurança', icon: ShieldCheck },
     ],

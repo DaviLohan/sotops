@@ -31,8 +31,15 @@ const envSchema = z.object({
 
   DATABASE_URL: z.url(),
   REDIS_URL: z.url(),
-  /** Endereço do armazenamento compatível com S3 (MinIO), conferido pelo readiness. */
+  /** Armazenamento compatível com S3 (MinIO): avatares, escudos e, depois, evidências. */
   S3_ENDPOINT: z.url().transform((value) => value.replace(/\/$/, '')),
+  S3_REGION: z.string().min(1).default('us-east-1'),
+  S3_BUCKET: z
+    .string()
+    .regex(/^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$/, 'nome de bucket S3 inválido')
+    .default('efed'),
+  S3_ACCESS_KEY: z.string().min(3),
+  S3_SECRET_KEY: z.string().min(8, 'deve ter pelo menos 8 caracteres'),
 
   /** Origens autorizadas a chamar a API com credenciais (separadas por vírgula). */
   ALLOWED_ORIGINS: commaSeparatedOrigins,
@@ -75,6 +82,7 @@ function assertProductionSecrets(env: Env): void {
     CSRF_SECRET: env.CSRF_SECRET,
     MFA_ENCRYPTION_KEY: Buffer.from(env.MFA_ENCRYPTION_KEY, 'base64').toString('latin1'),
     DATABASE_URL: env.DATABASE_URL,
+    S3_SECRET_KEY: env.S3_SECRET_KEY,
   };
   for (const [name, value] of Object.entries(secrets)) {
     if (PLACEHOLDER_MARKERS.some((marker) => value.toLowerCase().includes(marker))) {

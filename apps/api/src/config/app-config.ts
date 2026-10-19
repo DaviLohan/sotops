@@ -22,7 +22,13 @@ export class AppConfig {
 
   readonly databaseUrl: string;
   readonly redisUrl: string;
-  readonly s3Endpoint: string;
+  readonly storage: {
+    endpoint: string;
+    region: string;
+    bucket: string;
+    accessKey: string;
+    secretKey: string;
+  };
   readonly publicWebUrl: string;
 
   readonly session: {
@@ -76,7 +82,13 @@ export class AppConfig {
 
     this.databaseUrl = env.DATABASE_URL;
     this.redisUrl = env.REDIS_URL;
-    this.s3Endpoint = env.S3_ENDPOINT;
+    this.storage = {
+      endpoint: env.S3_ENDPOINT,
+      region: env.S3_REGION,
+      bucket: env.S3_BUCKET,
+      accessKey: env.S3_ACCESS_KEY,
+      secretKey: env.S3_SECRET_KEY,
+    };
     this.publicWebUrl = env.PUBLIC_WEB_URL;
 
     this.session = {

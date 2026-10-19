@@ -7,6 +7,8 @@ const valid = {
   DATABASE_URL: 'postgresql://efed:segredo-forte@db:5432/efed',
   REDIS_URL: 'redis://redis:6379',
   S3_ENDPOINT: 'http://minio:9000/',
+  S3_ACCESS_KEY: 'efed',
+  S3_SECRET_KEY: 'segredo-forte-do-minio',
   ALLOWED_ORIGINS: 'https://federacao.example.com/, https://www.federacao.example.com',
   PUBLIC_WEB_URL: 'https://federacao.example.com/',
   CSRF_SECRET: 'x'.repeat(48),

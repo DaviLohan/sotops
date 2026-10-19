@@ -72,15 +72,20 @@ model User {
   createdAt               DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
   updatedAt               DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
 
-  roles         UserRole[]        @relation("user_roles_user")
-  grantedRoles  UserRole[]        @relation("user_roles_granted_by")
-  sessions      Session[]
-  tokens        UserToken[]
-  totp          UserTotp?
-  recoveryCodes MfaRecoveryCode[]
-  auditLogs     AuditLog[]
-  playerProfile PlayerProfile?
-  newsAuthored  News[]
+  roles                UserRole[]        @relation("user_roles_user")
+  grantedRoles         UserRole[]        @relation("user_roles_granted_by")
+  sessions             Session[]
+  tokens               UserToken[]
+  totp                 UserTotp?
+  recoveryCodes        MfaRecoveryCode[]
+  auditLogs            AuditLog[]
+  playerProfile        PlayerProfile?
+  newsAuthored         News[]
+  managedClubs         Club[]
+  /// Decisões de transferência (pelo clube de destino e pela federação).
+  transfersClubDecided ClubTransfer[]    @relation("transfer_club_decided_by")
+  transfersDecided     ClubTransfer[]    @relation("transfer_decided_by")
+  settingsUpdated      SystemSetting[]
 
   @@index([status])
   @@index([createdAt])
@@ -253,6 +258,25 @@ enum MatchStatus {
   @@map("match_status")
 }
 
+enum ClubStatus {
+  ACTIVE
+  INACTIVE
+
+  @@map("club_status")
+}
+
+/// PENDING_CLUB: aguarda o responsável do clube de destino (pulado se o clube não tem um).
+/// PENDING_ADMIN: aguarda a federação. Os três últimos são finais.
+enum TransferStatus {
+  PENDING_CLUB
+  PENDING_ADMIN
+  APPROVED
+  REJECTED
+  CANCELED
+
+  @@map("transfer_status")
+}
+
 enum NewsStatus {
   DRAFT
   SCHEDULED
@@ -264,19 +288,26 @@ enum NewsStatus {
 /// Identidade competitiva pública do jogador. `nickname` é o nome exibido no portal;
 /// e-mail e demais dados da conta nunca saem da API pública.
 model PlayerProfile {
-  id        String       @id @default(uuid(7)) @db.Uuid
-  userId    String       @unique @map("user_id") @db.Uuid
-  nickname  String       @db.VarChar(24)
+  id          String       @id @default(uuid(7)) @db.Uuid
+  userId      String       @unique @map("user_id") @db.Uuid
+  nickname    String       @db.VarChar(24)
   /// Minúsculas, `[a-z0-9_]{3,24}` (CHECK). Usado na URL pública.
-  slug      String       @unique @db.VarChar(24)
+  slug        String       @unique @db.VarChar(24)
   /// ISO 3166-1 alfa-2, maiúsculas.
-  country   String       @db.Char(2)
-  platform  GamePlatform
-  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
-  updatedAt DateTime     @updatedAt @map("updated_at") @db.Timestamptz(3)
+  country     String       @db.Char(2)
+  region      String?      @db.VarChar(60)
+  platform    GamePlatform
+  /// ID do usuário no eFootball. Único por plataforma, sem diferenciar maiúsculas
+  /// (índice único sobre `lower()` na migration). Nulo só em perfis anteriores à Fase 2.
+  efootballId String?      @map("efootball_id") @db.VarChar(32)
+  /// Chave do objeto no armazenamento S3 (WebP reprocessado pela API).
+  avatarKey   String?      @map("avatar_key") @db.VarChar(200)
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime     @updatedAt @map("updated_at") @db.Timestamptz(3)
 
   user        User               @relation(fields: [userId], references: [id], onDelete: Restrict)
   memberships ClubMembership[]
+  transfers   ClubTransfer[]
   entries     CompetitionEntry[]
   homeMatches Match[]            @relation("match_home")
   awayMatches Match[]            @relation("match_away")
@@ -285,19 +316,30 @@ model PlayerProfile {
 }
 
 model Club {
-  id             String    @id @default(uuid(7)) @db.Uuid
-  slug           String    @unique @db.VarChar(60)
-  name           String    @db.VarChar(60)
+  id             String     @id @default(uuid(7)) @db.Uuid
+  slug           String     @unique @db.VarChar(60)
+  name           String     @db.VarChar(60)
   /// Sigla em maiúsculas, 2 a 4 caracteres (CHECK).
-  tag            String    @unique @db.VarChar(4)
+  tag            String     @unique @db.VarChar(4)
   /// `#RRGGBB` (CHECK). Enquanto não há escudo enviado, o portal desenha o emblema com estas cores.
-  primaryColor   String    @map("primary_color") @db.Char(7)
-  secondaryColor String    @map("secondary_color") @db.Char(7)
-  foundedOn      DateTime? @map("founded_on") @db.Date
-  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  primaryColor   String     @map("primary_color") @db.Char(7)
+  secondaryColor String     @map("secondary_color") @db.Char(7)
+  foundedOn      DateTime?  @map("founded_on") @db.Date
+  status         ClubStatus @default(ACTIVE)
+  /// Chave do escudo no armazenamento S3. Sem escudo, o portal desenha o emblema pelas cores.
+  crestKey       String?    @map("crest_key") @db.VarChar(200)
+  /// Responsável pelo clube: aceita (ou recusa) os pedidos de entrada antes da federação.
+  managerUserId  String?    @map("manager_user_id") @db.Uuid
+  createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt      DateTime   @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
 
-  memberships ClubMembership[]
+  manager      User?            @relation(fields: [managerUserId], references: [id], onDelete: Restrict)
+  memberships  ClubMembership[]
+  transfersIn  ClubTransfer[]   @relation("transfer_to_club")
+  transfersOut ClubTransfer[]   @relation("transfer_from_club")
 
+  @@index([status])
+  @@index([managerUserId])
   @@map("clubs")
 }
 
@@ -316,6 +358,51 @@ model ClubMembership {
   @@index([clubId])
   @@index([playerId])
   @@map("club_memberships")
+}
+
+/// Pedido de entrada em um clube (com ou sem clube de origem) e sua decisão. O efeito de uma
+/// aprovação é encerrar o vínculo ativo e criar um novo: vínculos passados nunca mudam.
+/// No máximo um pedido em aberto por jogador (índice único parcial na migration).
+model ClubTransfer {
+  id              String         @id @default(uuid(7)) @db.Uuid
+  playerId        String         @map("player_id") @db.Uuid
+  /// Clube do vínculo ativo no momento do pedido (nulo = jogador sem clube).
+  fromClubId      String?        @map("from_club_id") @db.Uuid
+  toClubId        String         @map("to_club_id") @db.Uuid
+  status          TransferStatus
+  /// Mensagem opcional do jogador ao pedir.
+  note            String?        @db.VarChar(300)
+  clubDecidedById String?        @map("club_decided_by_id") @db.Uuid
+  clubDecidedAt   DateTime?      @map("club_decided_at") @db.Timestamptz(3)
+  decidedById     String?        @map("decided_by_id") @db.Uuid
+  decidedAt       DateTime?      @map("decided_at") @db.Timestamptz(3)
+  /// Motivo de recusa (pelo clube ou pela federação).
+  decisionReason  String?        @map("decision_reason") @db.VarChar(500)
+  createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  player        PlayerProfile @relation(fields: [playerId], references: [id], onDelete: Restrict)
+  fromClub      Club?         @relation("transfer_from_club", fields: [fromClubId], references: [id], onDelete: Restrict)
+  toClub        Club          @relation("transfer_to_club", fields: [toClubId], references: [id], onDelete: Restrict)
+  clubDecidedBy User?         @relation("transfer_club_decided_by", fields: [clubDecidedById], references: [id], onDelete: Restrict)
+  decidedBy     User?         @relation("transfer_decided_by", fields: [decidedById], references: [id], onDelete: Restrict)
+
+  @@index([status, createdAt])
+  @@index([playerId])
+  @@index([toClubId, status])
+  @@map("club_transfers")
+}
+
+/// Configurações gerais da federação (chave → valor JSON). As chaves aceitas e o formato de
+/// cada valor são definidos por schema em `packages/shared`.
+model SystemSetting {
+  key         String   @id @db.VarChar(80)
+  value       Json
+  updatedAt   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  updatedById String?  @map("updated_by_id") @db.Uuid
+
+  updatedBy User? @relation(fields: [updatedById], references: [id], onDelete: Restrict)
+
+  @@map("system_settings")
 }
 
 model Season {

@@ -48,7 +48,7 @@ export class HealthController {
       this.check(() => this.redis.ping()),
       this.check(async () => {
         // Rota de saúde do MinIO: não exige credenciais.
-        const res = await fetch(`${this.config.s3Endpoint}/minio/health/live`, {
+        const res = await fetch(`${this.config.storage.endpoint}/minio/health/live`, {
           signal: AbortSignal.timeout(PROBE_TIMEOUT_MS),
         });
         if (!res.ok) {

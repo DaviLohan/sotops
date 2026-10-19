@@ -43,7 +43,7 @@ describe('login e sessões', () => {
     expect(me.body.data.account).toMatchObject({
       username: user.username,
       roles: ['PLAYER'],
-      permissions: [],
+      permissions: ['player_profile.manage'],
       mfaEnabled: false,
     });
     expect(me.body.data.account).not.toHaveProperty('passwordHash');

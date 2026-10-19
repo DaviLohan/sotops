@@ -13,7 +13,7 @@ describe('papéis e permissões', () => {
   });
 
   it('não concede permissões administrativas ao jogador', () => {
-    expect(permissionsForRoles(['PLAYER'])).toEqual([]);
+    expect(permissionsForRoles(['PLAYER'])).toEqual(['player_profile.manage']);
     expect(hasPermission(['PLAYER'], 'admin.access')).toBe(false);
   });
 

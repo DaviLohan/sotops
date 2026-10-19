@@ -178,6 +178,7 @@ export async function seedPortal(prisma: PrismaClient, passwordHash: string): Pr
         slug,
         country: player.country,
         platform: player.platform,
+        efootballId: `${player.nickname.toUpperCase()}-${String(index + 1).padStart(3, '0')}`,
       },
     });
     profileIds.push(profile.id);

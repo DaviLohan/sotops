@@ -11,6 +11,7 @@ import { MailModule } from './infra/mail/mail.module.js';
 import { PrismaModule } from './infra/prisma/prisma.module.js';
 import { RedisThrottlerStorage } from './infra/redis/redis-throttler.storage.js';
 import { RedisModule } from './infra/redis/redis.module.js';
+import { StorageModule } from './infra/storage/storage.module.js';
 import { AuditModule } from './modules/audit/audit.module.js';
 import { AUTH_RATE_LIMITED } from './modules/auth/auth.decorators.js';
 import { AuthModule } from './modules/auth/auth.module.js';
@@ -19,6 +20,8 @@ import { PermissionsGuard } from './modules/auth/permissions.guard.js';
 import { SessionGuard } from './modules/auth/session.guard.js';
 import { DashboardModule } from './modules/dashboard/dashboard.module.js';
 import { HealthModule } from './modules/health/health.module.js';
+import { MediaModule } from './modules/media/media.module.js';
+import { PlayersModule } from './modules/players/players.module.js';
 import { PublicModule } from './modules/public/public.module.js';
 import { UsersModule } from './modules/users/users.module.js';
 
@@ -75,6 +78,7 @@ function requestId(request: IncomingMessage, response: ServerResponse): string {
     }),
     PrismaModule,
     RedisModule,
+    StorageModule,
     MailModule,
     ThrottlerModule.forRootAsync({
       inject: [AppConfig, RedisThrottlerStorage, Reflector],
@@ -98,6 +102,8 @@ function requestId(request: IncomingMessage, response: ServerResponse): string {
     UsersModule,
     DashboardModule,
     PublicModule,
+    PlayersModule,
+    MediaModule,
     HealthModule,
   ],
   providers: [

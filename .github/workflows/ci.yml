@@ -14,6 +14,8 @@ env:
   TEST_REDIS_URL: redis://127.0.0.1:6379/1
   E2E_DATABASE_URL: postgresql://efed:ci-password@127.0.0.1:5432/efed_e2e?schema=public
   E2E_REDIS_URL: redis://127.0.0.1:6379/2
+  TEST_S3_SECRET_KEY: ci-password-minio
+  E2E_S3_SECRET_KEY: ci-password-minio
 
 jobs:
   quality:

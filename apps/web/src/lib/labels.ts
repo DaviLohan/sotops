@@ -35,6 +35,10 @@ const AUDIT_ACTION_LABELS: Record<string, string> = {
   'account.profile.updated': 'Perfil atualizado',
   'admin.user.status_changed': 'Situação da conta alterada',
   'admin.user.roles_changed': 'Papéis alterados',
+  'player.profile.created': 'Perfil de jogador criado',
+  'player.profile.updated': 'Perfil de jogador atualizado',
+  'player.avatar.updated': 'Avatar enviado',
+  'player.avatar.removed': 'Avatar removido',
 };
 
 export function auditActionLabel(action: string): string {

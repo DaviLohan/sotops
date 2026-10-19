@@ -24,6 +24,7 @@ export const PERMISSIONS = [
   'users.manage_status',
   'users.manage_roles',
   'audit.read',
+  'player_profile.manage',
 ] as const;
 export type Permission = (typeof PERMISSIONS)[number];
 
@@ -45,7 +46,8 @@ export const ROLE_PERMISSIONS: Record<RoleKey, readonly Permission[]> = {
   ADMIN: ADMIN_PERMISSIONS,
   ORGANIZER: [],
   REFEREE: [],
-  PLAYER: [],
+  // Qualquer jogador cuida do próprio perfil esportivo.
+  PLAYER: ['player_profile.manage'],
 };
 
 /** Papéis que só operam com autenticação multifator ativa. */

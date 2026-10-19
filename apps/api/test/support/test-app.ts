@@ -62,7 +62,7 @@ export class TestApp {
     await this.prisma.$transaction([
       this.prisma.$executeRawUnsafe('ALTER TABLE audit_logs DISABLE TRIGGER USER'),
       this.prisma.$executeRawUnsafe(
-        'TRUNCATE audit_logs, mfa_recovery_codes, user_totp, user_tokens, sessions, user_roles, banners, news, matches, rounds, competition_entries, competitions, seasons, club_memberships, clubs, player_profiles, users',
+        'TRUNCATE audit_logs, mfa_recovery_codes, user_totp, user_tokens, sessions, user_roles, system_settings, banners, news, matches, rounds, competition_entries, competitions, seasons, club_transfers, club_memberships, clubs, player_profiles, users',
       ),
       this.prisma.$executeRawUnsafe('ALTER TABLE audit_logs ENABLE TRIGGER USER'),
     ]);
@@ -182,6 +182,11 @@ export class ApiClient {
 
   delete(path: string): request.Test {
     return this.decorate(this.agent.delete(`/api/v1${path}`));
+  }
+
+  /** Envia um arquivo em multipart, como um formulário do navegador. */
+  upload(path: string, file: Buffer, filename = 'imagem.png'): request.Test {
+    return this.decorate(this.agent.post(`/api/v1${path}`)).attach('file', file, filename);
   }
 
   private decorate(test: request.Test): request.Test {

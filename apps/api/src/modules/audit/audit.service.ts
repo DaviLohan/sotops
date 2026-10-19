@@ -21,7 +21,11 @@ export type AuditAction =
   | 'auth.mfa.recovery_codes.regenerated'
   | 'account.profile.updated'
   | 'admin.user.status_changed'
-  | 'admin.user.roles_changed';
+  | 'admin.user.roles_changed'
+  | 'player.profile.created'
+  | 'player.profile.updated'
+  | 'player.avatar.updated'
+  | 'player.avatar.removed';
 
 export interface AuditEntry {
   action: AuditAction;
