@@ -21,7 +21,7 @@ env:
 jobs:
   quality:
     name: Lint, tipos, testes e build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     services:
       postgres:
         image: postgres:16-alpine
@@ -61,7 +61,7 @@ jobs:
 
   e2e:
     name: Testes end-to-end
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: quality
     services:
       postgres:
@@ -105,7 +105,7 @@ jobs:
 
   ocr:
     name: Serviço de OCR
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: services/ocr-service
