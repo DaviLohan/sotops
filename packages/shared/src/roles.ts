@@ -27,6 +27,9 @@ export const PERMISSIONS = [
   'player_profile.manage',
   'clubs.manage',
   'transfers.decide',
+  'players.manage',
+  'content.manage',
+  'settings.manage',
 ] as const;
 export type Permission = (typeof PERMISSIONS)[number];
 
@@ -39,9 +42,14 @@ const ADMIN_PERMISSIONS: readonly Permission[] = [
   'audit.read',
   'clubs.manage',
   'transfers.decide',
+  'players.manage',
+  'content.manage',
 ];
 
 /**
+ * `settings.manage` (nome da federação) fica só com o superadministrador: a configuração muda a
+ * identidade pública da federação.
+ *
  * ORGANIZER e REFEREE já existem como papéis atribuíveis, mas só recebem permissões
  * quando os módulos que administram forem implementados (Fases 3 e 5).
  */

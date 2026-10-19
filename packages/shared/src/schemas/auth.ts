@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const PASSWORD_MIN_LENGTH = 10;
 export const PASSWORD_MAX_LENGTH = 128;
 export const USERNAME_PATTERN = /^[a-z0-9_]{3,20}$/;
-export const PRIVACY_NOTICE_VERSION = '2026-09-30';
+export const PRIVACY_NOTICE_VERSION = '2026-10-19';
 
 export const emailSchema = z
   .string()

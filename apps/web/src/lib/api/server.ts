@@ -1,5 +1,11 @@
 import 'server-only';
-import type { AccountDto, ApiResponse, AuthStateDto } from '@efed/shared';
+import {
+  type AccountDto,
+  type ApiResponse,
+  type AuthStateDto,
+  DEFAULT_FEDERATION_NAME,
+  type FederationSettings,
+} from '@efed/shared';
 import { cookies, headers } from 'next/headers';
 import { cache } from 'react';
 import { errorFromResponse } from './errors';
@@ -48,10 +54,15 @@ export async function serverGet<T>(
  * Leitura de dados públicos (sem sessão). Não repassa cookies e pode ser reaproveitada por
  * alguns segundos: a HOME muda em minutos, não em milissegundos, e o portal aguenta picos.
  */
-export async function publicGet<T>(path: string, revalidateSeconds = 15): Promise<T> {
+export async function publicGet<T>(
+  path: string,
+  revalidateSeconds = 15,
+  signal?: AbortSignal,
+): Promise<T> {
   const response = await fetch(`${API_INTERNAL_URL}/api/v1${path}`, {
     headers: { Accept: 'application/json' },
     next: { revalidate: revalidateSeconds },
+    signal,
   });
   if (!response.ok) {
     throw await errorFromResponse(response);
@@ -89,5 +100,22 @@ export const getAuthState = cache(async (): Promise<AuthState> => {
       return { kind: 'anonymous' };
     }
     throw error;
+  }
+});
+
+/**
+ * Nome da federação (configurável no painel, decisão D10). Se a API não responder em 2 s, o nome
+ * padrão: o título e o rodapé nunca derrubam nem penduram uma página.
+ */
+export const getFederationName = cache(async (): Promise<string> => {
+  try {
+    const { data } = await publicGet<ApiResponse<FederationSettings>>(
+      '/public/settings',
+      60,
+      AbortSignal.timeout(2_000),
+    );
+    return data.federationName;
+  } catch {
+    return DEFAULT_FEDERATION_NAME;
   }
 });

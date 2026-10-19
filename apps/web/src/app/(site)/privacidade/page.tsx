@@ -13,6 +13,8 @@ const SECTIONS = [
       'Acesso: senha armazenada apenas como hash Argon2id, nunca em texto legível.',
       'Sessões: endereço IP, navegador e horários de acesso, para que você reconheça e encerre sessões.',
       'Segurança: segredo da verificação em duas etapas, cifrado, quando você a ativa.',
+      'Perfil de jogador, quando você o cria: apelido, ID e plataforma no eFootball, país, região (opcional) e avatar. A imagem do avatar é regravada pela plataforma, sem os metadados do arquivo original (como localização).',
+      'Clubes: vínculos com início e fim, e os pedidos de transferência com as respectivas decisões.',
       'Auditoria: registro de ações sensíveis na conta (login, troca de senha, alterações administrativas).',
     ],
   },
@@ -28,6 +30,7 @@ const SECTIONS = [
     title: 'Com quem compartilhamos',
     items: [
       'Nome de usuário e nome de exibição são públicos dentro da plataforma.',
+      'No portal, a página pública do jogador mostra apelido, país, região, plataforma, avatar, clube atual, clubes anteriores e resultados oficiais. O ID do eFootball não é exibido publicamente; ele é visível para a administração e, a partir das competições, para os adversários.',
       'E-mail, dados de sessão e registros de auditoria são acessíveis apenas à administração da federação, conforme o papel de cada pessoa.',
       'Não vendemos dados pessoais.',
     ],

@@ -1,7 +1,13 @@
+import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { SiteFooter } from '@/components/layout/site-footer';
 import { SiteHeader } from '@/components/layout/site-header';
-import { getAuthState } from '@/lib/api/server';
+import { getAuthState, getFederationName } from '@/lib/api/server';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const name = await getFederationName();
+  return { title: { default: name, template: `%s · ${name}` } };
+}
 
 export default async function SiteLayout({ children }: { children: ReactNode }) {
   const auth = await getAuthState();

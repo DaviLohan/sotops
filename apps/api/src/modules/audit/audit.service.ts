@@ -36,7 +36,15 @@ export type AuditAction =
   | 'transfer.club_accepted'
   | 'transfer.club_rejected'
   | 'transfer.approved'
-  | 'transfer.rejected';
+  | 'transfer.rejected'
+  | 'settings.updated'
+  | 'news.created'
+  | 'news.updated'
+  | 'banner.created'
+  | 'banner.updated'
+  | 'competition.featured_changed'
+  | 'admin.player.updated'
+  | 'admin.player.avatar_removed';
 
 export interface AuditEntry {
   action: AuditAction;

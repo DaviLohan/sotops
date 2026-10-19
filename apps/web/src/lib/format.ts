@@ -75,3 +75,16 @@ export function describeUserAgent(userAgent: string | null): string {
             : null;
   return system ? `${browser} no ${system}` : browser;
 }
+
+/** ISO → valor de `<input type="datetime-local">` no fuso do navegador. */
+export function toDateTimeLocal(iso: string | null): string {
+  if (!iso) return '';
+  const date = new Date(iso);
+  const pad = (value: number) => String(value).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+/** Valor de `<input type="datetime-local">` (fuso do navegador) → ISO em UTC, ou nulo. */
+export function fromDateTimeLocal(value: string): string | null {
+  return value ? new Date(value).toISOString() : null;
+}

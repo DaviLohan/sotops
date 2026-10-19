@@ -46,6 +46,7 @@ O frontend decide comportamento pelo **`code`**, nunca pelo texto.
 | `NOT_FOUND`                               | 404  | Recurso inexistente                                        |
 | `CONFLICT`                                | 409  | Estado atual não permite a operação                        |
 | `USERNAME_TAKEN`                          | 409  | Nome de usuário em uso                                     |
+| `EFOOTBALL_ID_TAKEN`                      | 409  | ID do eFootball já cadastrado na mesma plataforma          |
 | `MFA_ALREADY_ENABLED` / `MFA_NOT_ENABLED` | 409  | Operação de MFA incompatível com o estado                  |
 | `ACCOUNT_LOCKED`                          | 429  | Bloqueio temporário por tentativas (`Retry-After`)         |
 | `RATE_LIMITED`                            | 429  | Limite de requisições por IP                               |
@@ -104,6 +105,39 @@ O frontend decide comportamento pelo **`code`**, nunca pelo texto.
 
 Respostas com `Cache-Control: public, max-age=10, stale-while-revalidate=50`. Nenhum campo de conta (e-mail,
 usuário, identificadores de usuário) sai dessas rotas; o jogador é identificado por `nickname` e `slug`.
+
+### Jogador e clube (Fase 2)
+
+| Método e rota                                            | Acesso                     | Descrição                                                     |
+| -------------------------------------------------------- | -------------------------- | ------------------------------------------------------------- |
+| `GET`/`PUT /me/player-profile`                           | 🛡️ `player_profile.manage` | Perfil esportivo (nulo até ser criado); `PUT` cria ou altera. |
+| `POST`/`DELETE /me/player-profile/avatar`                | 🛡️ `player_profile.manage` | Avatar em multipart (`file`), regravado em WebP 256×256.      |
+| `GET /me/club` · `POST /me/club/leave`                   | 🛡️ `player_profile.manage` | Clube atual, histórico e pedidos; sair do clube.              |
+| `POST /me/transfers` · `POST /me/transfers/{id}/cancel`  | 🛡️ `player_profile.manage` | Pedir entrada em um clube; cancelar o próprio pedido.         |
+| `GET /me/club-requests` · `POST …/{id}/accept`·`/reject` | 🔐 responsável do clube    | Decisão do clube de destino.                                  |
+| `GET /media/{avatars\|crests}/{arquivo}`                 | 🔓                         | Imagens públicas, cache imutável.                             |
+
+### Administração (Fase 2)
+
+| Método e rota                                                        | Acesso                | Descrição                                          |
+| -------------------------------------------------------------------- | --------------------- | -------------------------------------------------- |
+| `GET`/`POST /admin/clubs` · `GET`/`PUT /admin/clubs/{id}`            | 🛡️ `clubs.manage`     | Clubes; a URL pública é gerada do nome e não muda. |
+| `POST`/`DELETE /admin/clubs/{id}/crest`                              | 🛡️ `clubs.manage`     | Escudo.                                            |
+| `GET /admin/transfers` · `POST …/{id}/approve`·`/reject`             | 🛡️ `transfers.decide` | Fila da federação; aprovar cria o vínculo.         |
+| `GET /admin/players` · `PUT /admin/players/{id}` · `DELETE …/avatar` | 🛡️ `players.manage`   | Correção com motivo; moderação do avatar.          |
+| `GET`/`POST /admin/news` · `GET`/`PUT /admin/news/{id}`              | 🛡️ `content.manage`   | Notícias, sem exclusão (despublicar = rascunho).   |
+| `GET`/`POST /admin/banners` · `PUT /admin/banners/{id}`              | 🛡️ `content.manage`   | Banners do hero.                                   |
+| `GET`/`PUT /admin/featured-competition`                              | 🛡️ `content.manage`   | Competição em destaque.                            |
+| `GET`/`PUT /admin/settings`                                          | 🛡️ `settings.manage`  | Nome da federação.                                 |
+
+### Portal público (Fase 2)
+
+| Método e rota                                    | Descrição                                                          |
+| ------------------------------------------------ | ------------------------------------------------------------------ |
+| `GET /public/players` · `/public/players/{slug}` | Jogadores com conta ativa; perfil com vínculos e campanha oficial. |
+| `GET /public/clubs` · `/public/clubs/{slug}`     | Clubes ativos; elenco e ex-jogadores.                              |
+| `GET /public/search?q=`                          | Até 5 jogadores e 5 clubes (mínimo de 2 caracteres).               |
+| `GET /public/settings`                           | Nome da federação.                                                 |
 
 ### Saúde
 

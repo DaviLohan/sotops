@@ -1,6 +1,7 @@
 import type { Route } from 'next';
 import Link from 'next/link';
 import { LogoMark } from '@/components/brand/logo';
+import { getFederationName } from '@/lib/api/server';
 
 const COLUMNS: { title: string; links: { href: Route; label: string }[] }[] = [
   {
@@ -29,17 +30,18 @@ const COLUMNS: { title: string; links: { href: Route; label: string }[] }[] = [
 ];
 
 /** Rodapé enxuto. Só links que existem: páginas novas entram aqui quando forem publicadas. */
-export function SiteFooter() {
+export async function SiteFooter() {
+  const name = await getFederationName();
   return (
     <footer className="border-t border-border bg-canvas-deep">
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_repeat(3,1fr)] lg:px-8">
         <div className="max-w-sm">
           <div className="flex items-center gap-3">
             <LogoMark className="h-9" />
-            <p className="type-display type-h3 text-fg">Federação eFootball 1x1</p>
+            <p className="type-display type-h3 text-fg">{name}</p>
           </div>
           <p className="type-small mt-4 text-fg-subtle">
-            Federação independente de eFootball 1x1. Sem vínculo com a Konami; eFootball é marca de
+            Entidade independente de eFootball 1x1. Sem vínculo com a Konami; eFootball é marca de
             sua respectiva titular.
           </p>
         </div>

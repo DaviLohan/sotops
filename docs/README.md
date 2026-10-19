@@ -15,6 +15,7 @@ Entrega de arquitetura (os onze itens pedidos) e documentos de apoio.
 | 9   | [Autenticação e segurança](09-autenticacao-e-seguranca.md)        | Controles implementados e pendências                       |
 | 10  | [Plano de fases](10-plano-de-fases.md)                            | As seis fases, dependências e critérios de saída           |
 | 11  | [Fase 1: aceitação e testes](11-fase-1-aceitacao-e-testes.md)     | O que foi verificado, como, e o que ficou pendente         |
+| 14  | [Sistema funcional: aceitação](14-aceitacao-sistema-funcional.md) | Resultado de cada etapa (B em diante), testes e pendências |
 
 Apoio: [Regras de negócio](regras-de-negocio.md) · [Decisões de arquitetura (ADRs)](adr)
 

@@ -19,11 +19,13 @@ import { CsrfGuard } from './modules/auth/csrf.guard.js';
 import { PermissionsGuard } from './modules/auth/permissions.guard.js';
 import { SessionGuard } from './modules/auth/session.guard.js';
 import { ClubsModule } from './modules/clubs/clubs.module.js';
+import { ContentModule } from './modules/content/content.module.js';
 import { DashboardModule } from './modules/dashboard/dashboard.module.js';
 import { HealthModule } from './modules/health/health.module.js';
 import { MediaModule } from './modules/media/media.module.js';
 import { PlayersModule } from './modules/players/players.module.js';
 import { PublicModule } from './modules/public/public.module.js';
+import { SettingsModule } from './modules/settings/settings.module.js';
 import { UsersModule } from './modules/users/users.module.js';
 
 const REQUEST_ID_PATTERN = /^[A-Za-z0-9._-]{8,64}$/;
@@ -99,12 +101,14 @@ function requestId(request: IncomingMessage, response: ServerResponse): string {
       }),
     }),
     AuditModule,
+    SettingsModule,
     AuthModule,
     UsersModule,
     DashboardModule,
     PublicModule,
     PlayersModule,
     ClubsModule,
+    ContentModule,
     MediaModule,
     HealthModule,
   ],

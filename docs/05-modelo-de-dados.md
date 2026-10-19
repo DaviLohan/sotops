@@ -121,6 +121,27 @@ ADR 0008). Tabelas: `player_profiles`, `clubs`, `club_memberships`, `seasons`, `
 | Formato de slug, país, sigla e cores                             | `CHECK`                                   |
 | Nenhuma exclusão em cascata                                      | `ON DELETE RESTRICT` em todas as chaves   |
 
+## Gestão (Fase 2) — implementado (migration `20261019120000`)
+
+Decisões em `adr/0010`. Mudanças sobre o modelo de leitura:
+
+| Tabela / coluna                                        | Para quê                                                         |
+| ------------------------------------------------------ | ---------------------------------------------------------------- |
+| `player_profiles.efootball_id`, `region`, `avatar_key` | ID no eFootball (único por plataforma), região e avatar no MinIO |
+| `clubs.status`, `crest_key`, `manager_user_id`         | Clube ativo/inativo, escudo e responsável que aceita pedidos     |
+| `club_transfers`                                       | Pedido de entrada, decisão do clube e da federação, motivo       |
+| `system_settings`                                      | Configurações gerais (chave → JSON), hoje só `federation.name`   |
+
+| Garantia                                         | Como                                                                |
+| ------------------------------------------------ | ------------------------------------------------------------------- |
+| ID do eFootball único por plataforma, sem caixa  | Índice único `(platform, lower(efootball_id))`                      |
+| Um pedido de transferência em aberto por jogador | Índice único parcial (`status IN ('PENDING_CLUB','PENDING_ADMIN')`) |
+| Pedido decidido tem data; em aberto, não         | `CHECK club_transfers_decision_check`                               |
+| Origem e destino diferentes                      | `CHECK club_transfers_distinct_clubs_check`                         |
+
+A tabela `game_accounts` do desenho original não foi criada: uma plataforma por perfil basta (ADR
+0010). `club_memberships` não ganhou `status`: o vínculo ativo é o de `ended_on` nulo.
+
 ## Modelo completo planejado
 
 Visão por domínio. Apenas chaves e colunas que explicam uma decisão estão listadas.

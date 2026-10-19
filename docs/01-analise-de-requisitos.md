@@ -71,15 +71,15 @@ Nenhuma bloqueou a Fase 1. Cada uma está associada à fase que ela trava.
 | #   | Decisão                                                                                                  | Trava a fase |
 | --- | -------------------------------------------------------------------------------------------------------- | ------------ |
 | D1  | **Capturas reais** da tela de resultado do eFootball, por plataforma, resolução e idioma (ver `08`)      | 4            |
-| D2  | Formato da identificação no eFootball (ID do usuário? nome do time?) e se ela é única por plataforma     | 2            |
-| D3  | Um clube pode ter vários jogadores? Um jogador pode disputar sem clube? Quem aprova transferências?      | 2            |
+| D2  | ✅ ID do usuário, único por plataforma (ADR 0010)                                                        | 2            |
+| D3  | ✅ Vários jogadores por clube; jogar sem clube é permitido; clube aceita e federação aprova (ADR 0010)   | 2            |
 | D4  | Regra para reporte sem resposta do adversário (homologação tácita após o prazo ou sempre análise humana) | 5            |
 | D5  | Critérios de W.O. e placar atribuído; prazos padrão de reporte e de confirmação                          | 3 e 5        |
 | D6  | Fórmula dos rankings (geral, por temporada, de clubes)                                                   | 5            |
 | D7  | Provedor de e-mail (SMTP) de produção e domínio da federação                                             | produção     |
 | D8  | LGPD: quem é o controlador, canal do encarregado e prazos de retenção de evidências e sessões            | produção     |
 | D9  | Onde a plataforma será hospedada (um servidor com Docker é o pressuposto atual)                          | 6            |
-| D10 | Nome e marca definitivos da federação (hoje: marca provisória original, "Federação eFootball 1x1")       | 2            |
+| D10 | Nome e marca definitivos. Hoje: provisório, nome editável no painel (ADR 0010); logotipo aguarda a marca | 2            |
 
 ## 7. Pontos do documento original que foram interpretados
 

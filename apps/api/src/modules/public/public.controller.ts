@@ -1,5 +1,7 @@
 import {
   type ApiResponse,
+  type FederationSettings,
+  federationSettingsSchema,
   type PaginatedResponse,
   type PublicClubListItem,
   publicClubListItemSchema,
@@ -27,6 +29,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ZodValidationPipe } from '../../common/http/zod-validation.pipe.js';
 import { ApiProblems, ApiZodQuery, ApiZodResponse } from '../../common/openapi/zod-openapi.js';
 import { Public } from '../auth/auth.decorators.js';
+import { SettingsService } from '../settings/settings.service.js';
 import { PublicDirectoryService } from './public-directory.service.js';
 import { PublicService } from './public.service.js';
 
@@ -41,7 +44,16 @@ export class PublicController {
   constructor(
     private readonly publicService: PublicService,
     private readonly directory: PublicDirectoryService,
+    private readonly settings: SettingsService,
   ) {}
+
+  @Get('settings')
+  @Header('Cache-Control', PUBLIC_CACHE)
+  @ApiOperation({ summary: 'Nome da federação e demais configurações públicas' })
+  @ApiZodResponse(federationSettingsSchema, { description: 'Configurações públicas.' })
+  async publicSettings(): Promise<ApiResponse<FederationSettings>> {
+    return { data: await this.settings.get() };
+  }
 
   @Get('home')
   @Header('Cache-Control', PUBLIC_CACHE)

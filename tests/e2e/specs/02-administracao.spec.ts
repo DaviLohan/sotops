@@ -1,7 +1,5 @@
 import { expect, type Page, test } from '@playwright/test';
-import { pageAlert, signIn, signOut } from '../support/actions.js';
-import { SEED_PASSWORD } from '../support/env.js';
-import { totpCode } from '../support/totp.js';
+import { enrollMfa, pageAlert, signIn, signInWithMfa, signOut } from '../support/actions.js';
 
 test.describe.configure({ mode: 'serial' });
 
@@ -29,32 +27,15 @@ test.describe('painel administrativo', () => {
     ).toBeVisible();
 
     await page.getByRole('link', { name: 'Ativar agora' }).click();
-    await page.getByRole('button', { name: 'Ativar verificação em duas etapas' }).click();
-    await page.getByLabel('Sua senha atual').fill(SEED_PASSWORD);
-    await page.getByRole('button', { name: 'Continuar' }).click();
-
-    await expect(page.getByAltText('QR code para o aplicativo autenticador')).toBeVisible();
-    totpSecret = (await page.getByTestId('totp-secret').innerText()).trim();
-    await page.getByLabel('Código de 6 dígitos').fill(totpCode(totpSecret));
-    await page.getByRole('button', { name: 'Ativar', exact: true }).click();
-
-    await expect(
-      page.getByRole('list', { name: 'Códigos de recuperação' }).getByRole('listitem'),
-    ).toHaveCount(10);
-    await page.getByRole('button', { name: 'Guardei os códigos' }).click();
+    totpSecret = await enrollMfa(page);
 
     await page.goto('/admin');
     await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
     await signOut(page);
   });
 
-  async function signInAsSuperAdmin(page: Page): Promise<void> {
-    await signIn(page, 'superadmin');
-    await expect(page.getByRole('heading', { name: 'Verificação em duas etapas' })).toBeVisible();
-    // O código do intervalo atual pode já ter sido usado; o do próximo intervalo é sempre inédito.
-    await page.getByLabel('Código do autenticador').fill(totpCode(totpSecret, 1));
-    await page.getByRole('button', { name: 'Confirmar' }).click();
-    await expect(page).toHaveURL('/painel');
+  function signInAsSuperAdmin(page: Page): Promise<void> {
+    return signInWithMfa(page, 'superadmin', totpSecret);
   }
 
   test('pede o segundo fator no login e recusa código incorreto', async ({ page }) => {

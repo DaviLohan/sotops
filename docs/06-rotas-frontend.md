@@ -19,8 +19,8 @@ Legenda: ✅ implementada · ⏳ planejada (fase).
 | `/privacidade`                        | Aviso de Privacidade                                                                                                     | ✅                               |
 | `/sobre`                              | Apresentação da federação                                                                                                | ⏳ 2                             |
 | `/noticias`, `/noticias/[slug]`       | Notícias e comunicados                                                                                                   | ⏳ 2                             |
-| `/jogadores/[username]`               | Perfil público do jogador                                                                                                | ⏳ 2                             |
-| `/clubes`, `/clubes/[tag]`            | Clubes                                                                                                                   | ⏳ 2                             |
+| `/jogadores`, `/jogadores/[slug]`     | Jogadores (busca) e perfil público: clube, histórico de vínculos e campanha oficial                                      | ✅                               |
+| `/clubes`, `/clubes/[slug]`           | Clubes (busca), elenco atual e ex-jogadores                                                                              | ✅                               |
 | `/competicoes`, `/competicoes/[slug]` | Competições, tabela, jogos, regulamento                                                                                  | ⏳ 3                             |
 | `/calendario`                         | Calendário de competições e partidas                                                                                     | ⏳ 3                             |
 | `/partidas/[id]`                      | Partida: placar oficial e histórico                                                                                      | ⏳ 5                             |
@@ -47,8 +47,8 @@ Legenda: ✅ implementada · ⏳ planejada (fase).
 | `/painel`                                                         | Visão geral: conta, segurança, acessos recentes        | ✅     |
 | `/painel/conta`                                                   | Dados da conta                                         | ✅     |
 | `/painel/seguranca`                                               | Senha, verificação em duas etapas, sessões             | ✅     |
-| `/painel/perfil`                                                  | Perfil de jogador: eFootball, plataforma, país, avatar | ⏳ 2   |
-| `/painel/clube`                                                   | Meu clube, vínculo e transferências                    | ⏳ 2   |
+| `/painel/perfil`                                                  | Perfil de jogador: eFootball, plataforma, país, avatar | ✅     |
+| `/painel/clube`                                                   | Meu clube, vínculo, transferências e pedidos recebidos | ✅     |
 | `/painel/inscricoes`                                              | Minhas inscrições e campeonatos abertos                | ⏳ 3   |
 | `/painel/partidas`, `/painel/calendario`                          | Próximas partidas e calendário                         | ⏳ 3   |
 | `/painel/partidas/[id]/reportar`                                  | Envio da captura e acompanhamento do OCR               | ⏳ 4   |
@@ -58,19 +58,20 @@ Legenda: ✅ implementada · ⏳ planejada (fase).
 
 ## Painel administrativo (`/admin`)
 
-| Rota                                                       | Tela                                        | Permissão                   | Estado |
-| ---------------------------------------------------------- | ------------------------------------------- | --------------------------- | ------ |
-| `/admin`                                                   | Dashboard com indicadores do banco          | `dashboard.read`            | ✅     |
-| `/admin/usuarios`                                          | Usuários: busca, filtros, papéis, suspensão | `users.read` (+ `manage_*`) | ✅     |
-| `/admin/auditoria`                                         | Histórico de auditoria                      | `audit.read`                | ✅     |
-| `/admin/jogadores`, `/admin/clubes`                        | Gestão de jogadores e clubes                | —                           | ⏳ 2   |
-| `/admin/noticias`, `/admin/configuracoes`                  | Notícias e configurações gerais             | —                           | ⏳ 2   |
-| `/admin/temporadas`, `/admin/campeonatos`                  | Temporadas e campeonatos                    | —                           | ⏳ 3   |
-| `/admin/inscricoes`, `/admin/rodadas`, `/admin/confrontos` | Inscrições, rodadas e confrontos            | —                           | ⏳ 3   |
-| `/admin/ocr`                                               | Central de OCR: fila, revisão, layouts      | —                           | ⏳ 4   |
-| `/admin/resultados`                                        | Central de resultados e homologação         | —                           | ⏳ 5   |
-| `/admin/contestacoes`, `/admin/penalidades`                | Justiça desportiva                          | —                           | ⏳ 5   |
-| `/admin/notificacoes`, `/admin/relatorios`                 | Notificações e relatórios                   | —                           | ⏳ 5   |
+| Rota                                                       | Tela                                        | Permissão                              | Estado |
+| ---------------------------------------------------------- | ------------------------------------------- | -------------------------------------- | ------ |
+| `/admin`                                                   | Dashboard com indicadores do banco          | `dashboard.read`                       | ✅     |
+| `/admin/usuarios`                                          | Usuários: busca, filtros, papéis, suspensão | `users.read` (+ `manage_*`)            | ✅     |
+| `/admin/auditoria`                                         | Histórico de auditoria                      | `audit.read`                           | ✅     |
+| `/admin/jogadores`, `/admin/clubes`                        | Gestão de jogadores e clubes                | `players.manage`, `clubs.manage`       | ✅     |
+| `/admin/transferencias`                                    | Fila de transferências                      | `transfers.decide`                     | ✅     |
+| `/admin/noticias`, `/admin/configuracoes`                  | Notícias; nome, banners e destaque da HOME  | `content.manage` (+ `settings.manage`) | ✅     |
+| `/admin/temporadas`, `/admin/campeonatos`                  | Temporadas e campeonatos                    | —                                      | ⏳ 3   |
+| `/admin/inscricoes`, `/admin/rodadas`, `/admin/confrontos` | Inscrições, rodadas e confrontos            | —                                      | ⏳ 3   |
+| `/admin/ocr`                                               | Central de OCR: fila, revisão, layouts      | —                                      | ⏳ 4   |
+| `/admin/resultados`                                        | Central de resultados e homologação         | —                                      | ⏳ 5   |
+| `/admin/contestacoes`, `/admin/penalidades`                | Justiça desportiva                          | —                                      | ⏳ 5   |
+| `/admin/notificacoes`, `/admin/relatorios`                 | Notificações e relatórios                   | —                                      | ⏳ 5   |
 
 ## Regras de navegação
 

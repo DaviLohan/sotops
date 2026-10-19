@@ -7,3 +7,4 @@ export * from './schemas/admin.js';
 export * from './schemas/public.js';
 export * from './schemas/players.js';
 export * from './schemas/clubs.js';
+export * from './schemas/content.js';

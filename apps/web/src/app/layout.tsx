@@ -5,10 +5,12 @@ import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
+import { DEFAULT_FEDERATION_NAME } from '@efed/shared';
 import { Providers } from '@/components/layout/providers';
 
+/** O portal troca pelo nome configurado (`(site)/layout.tsx`); aqui não há consulta à API no build. */
 export const metadata: Metadata = {
-  title: { default: 'Federação eFootball 1x1', template: '%s · Federação eFootball 1x1' },
+  title: { default: DEFAULT_FEDERATION_NAME, template: `%s · ${DEFAULT_FEDERATION_NAME}` },
   description:
     'Campeonatos de eFootball 1x1 com regulamento, classificação automática e resultados conferidos.',
 };

@@ -5,7 +5,7 @@ atualizada. **Não se avança com falha crítica aberta.**
 
 ```mermaid
 flowchart LR
-  F1[1 · Fundação<br/>concluída] --> F2[2 · Gestão]
+  F1[1 · Fundação<br/>concluída] --> F2[2 · Gestão<br/>concluída]
   F2 --> F3[3 · Competições]
   F3 --> F4[4 · OCR]
   F3 --> F5[5 · Resultados]
@@ -22,7 +22,9 @@ construído primeiro com placar digitado e evidência anexada, e o OCR entra dep
 Arquitetura e documentação, monorepositório, Docker, PostgreSQL + Prisma, NestJS, Next.js, design
 system, autenticação e permissões. Resultado e pendências: `11-fase-1-aceitacao-e-testes.md`.
 
-## Fase 2 — Gestão
+## Fase 2 — Gestão ✅
+
+Entregue na Etapa B (19/10/2026); decisões D2, D3 e D10 em `adr/0010`. Resultado: `14-aceitacao-sistema-funcional.md`.
 
 | Entrega                   | Conteúdo                                                                                    |
 | ------------------------- | ------------------------------------------------------------------------------------------- |

@@ -1,7 +1,5 @@
 import type { MailMessage } from './mailer.js';
 
-const BRAND = 'Federação eFootball';
-
 function escapeHtml(value: string): string {
   return value
     .replaceAll('&', '&amp;')
@@ -11,6 +9,8 @@ function escapeHtml(value: string): string {
 }
 
 interface Layout {
+  /** Nome da federação (configurável, decisão D10). */
+  brand: string;
   to: string;
   subject: string;
   greetingName: string;
@@ -19,7 +19,15 @@ interface Layout {
   footnote?: string;
 }
 
-function render({ to, subject, greetingName, paragraphs, action, footnote }: Layout): MailMessage {
+function render({
+  brand,
+  to,
+  subject,
+  greetingName,
+  paragraphs,
+  action,
+  footnote,
+}: Layout): MailMessage {
   const textLines = [`Olá, ${greetingName}.`, '', ...paragraphs];
   if (action) {
     textLines.push('', `${action.label}: ${action.url}`);
@@ -27,7 +35,7 @@ function render({ to, subject, greetingName, paragraphs, action, footnote }: Lay
   if (footnote) {
     textLines.push('', footnote);
   }
-  textLines.push('', `— ${BRAND}`);
+  textLines.push('', `— ${brand}`);
 
   const htmlParagraphs = paragraphs
     .map((paragraph) => `<p style="margin:0 0 16px">${escapeHtml(paragraph)}</p>`)
@@ -47,7 +55,7 @@ function render({ to, subject, greetingName, paragraphs, action, footnote }: Lay
       <tr><td align="center">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#111936;border-radius:12px;padding:32px">
           <tr><td style="font-size:15px;line-height:1.6">
-            <p style="margin:0 0 24px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#F5F500;font-weight:700">${BRAND}</p>
+            <p style="margin:0 0 24px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#F5F500;font-weight:700">${escapeHtml(brand)}</p>
             <p style="margin:0 0 16px">Olá, ${escapeHtml(greetingName)}.</p>
             ${htmlParagraphs}${htmlAction}${htmlFootnote}
           </td></tr>
@@ -65,8 +73,13 @@ interface Recipient {
   displayName: string;
 }
 
-export function emailVerificationMessage(recipient: Recipient, url: string): MailMessage {
+export function emailVerificationMessage(
+  recipient: Recipient,
+  url: string,
+  brand: string,
+): MailMessage {
   return render({
+    brand,
     to: recipient.email,
     subject: 'Confirme seu e-mail',
     greetingName: recipient.displayName,
@@ -76,8 +89,13 @@ export function emailVerificationMessage(recipient: Recipient, url: string): Mai
   });
 }
 
-export function alreadyRegisteredMessage(recipient: Recipient, loginUrl: string): MailMessage {
+export function alreadyRegisteredMessage(
+  recipient: Recipient,
+  loginUrl: string,
+  brand: string,
+): MailMessage {
   return render({
+    brand,
     to: recipient.email,
     subject: 'Você já tem uma conta',
     greetingName: recipient.displayName,
@@ -90,8 +108,13 @@ export function alreadyRegisteredMessage(recipient: Recipient, loginUrl: string)
   });
 }
 
-export function passwordResetMessage(recipient: Recipient, url: string): MailMessage {
+export function passwordResetMessage(
+  recipient: Recipient,
+  url: string,
+  brand: string,
+): MailMessage {
   return render({
+    brand,
     to: recipient.email,
     subject: 'Redefinição de senha',
     greetingName: recipient.displayName,
@@ -102,8 +125,9 @@ export function passwordResetMessage(recipient: Recipient, url: string): MailMes
   });
 }
 
-export function passwordChangedMessage(recipient: Recipient): MailMessage {
+export function passwordChangedMessage(recipient: Recipient, brand: string): MailMessage {
   return render({
+    brand,
     to: recipient.email,
     subject: 'Sua senha foi alterada',
     greetingName: recipient.displayName,
