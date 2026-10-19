@@ -25,7 +25,18 @@ export type AuditAction =
   | 'player.profile.created'
   | 'player.profile.updated'
   | 'player.avatar.updated'
-  | 'player.avatar.removed';
+  | 'player.avatar.removed'
+  | 'club.created'
+  | 'club.updated'
+  | 'club.crest.updated'
+  | 'club.crest.removed'
+  | 'membership.left'
+  | 'transfer.requested'
+  | 'transfer.canceled'
+  | 'transfer.club_accepted'
+  | 'transfer.club_rejected'
+  | 'transfer.approved'
+  | 'transfer.rejected';
 
 export interface AuditEntry {
   action: AuditAction;

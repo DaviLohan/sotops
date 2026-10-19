@@ -1,4 +1,4 @@
-import type { RoleKey, UserStatus } from '@efed/shared';
+import type { ClubStatus, RoleKey, TransferStatus, UserStatus } from '@efed/shared';
 import type { BadgeTone } from '@/components/ui/badge';
 
 export const STATUS_TONES: Record<UserStatus, BadgeTone> = {
@@ -14,6 +14,19 @@ export const ROLE_TONES: Record<RoleKey, BadgeTone> = {
   ORGANIZER: 'info',
   REFEREE: 'info',
   PLAYER: 'neutral',
+};
+
+export const TRANSFER_STATUS_TONES: Record<TransferStatus, BadgeTone> = {
+  PENDING_CLUB: 'warning',
+  PENDING_ADMIN: 'info',
+  APPROVED: 'success',
+  REJECTED: 'danger',
+  CANCELED: 'neutral',
+};
+
+export const CLUB_STATUS_TONES: Record<ClubStatus, BadgeTone> = {
+  ACTIVE: 'success',
+  INACTIVE: 'neutral',
 };
 
 const AUDIT_ACTION_LABELS: Record<string, string> = {
@@ -39,6 +52,17 @@ const AUDIT_ACTION_LABELS: Record<string, string> = {
   'player.profile.updated': 'Perfil de jogador atualizado',
   'player.avatar.updated': 'Avatar enviado',
   'player.avatar.removed': 'Avatar removido',
+  'club.created': 'Clube cadastrado',
+  'club.updated': 'Clube alterado',
+  'club.crest.updated': 'Escudo enviado',
+  'club.crest.removed': 'Escudo removido',
+  'membership.left': 'Saída de clube',
+  'transfer.requested': 'Transferência pedida',
+  'transfer.canceled': 'Transferência cancelada',
+  'transfer.club_accepted': 'Transferência aceita pelo clube',
+  'transfer.club_rejected': 'Transferência recusada pelo clube',
+  'transfer.approved': 'Transferência aprovada',
+  'transfer.rejected': 'Transferência recusada',
 };
 
 export function auditActionLabel(action: string): string {

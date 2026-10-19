@@ -18,6 +18,7 @@ import { AuthModule } from './modules/auth/auth.module.js';
 import { CsrfGuard } from './modules/auth/csrf.guard.js';
 import { PermissionsGuard } from './modules/auth/permissions.guard.js';
 import { SessionGuard } from './modules/auth/session.guard.js';
+import { ClubsModule } from './modules/clubs/clubs.module.js';
 import { DashboardModule } from './modules/dashboard/dashboard.module.js';
 import { HealthModule } from './modules/health/health.module.js';
 import { MediaModule } from './modules/media/media.module.js';
@@ -103,6 +104,7 @@ function requestId(request: IncomingMessage, response: ServerResponse): string {
     DashboardModule,
     PublicModule,
     PlayersModule,
+    ClubsModule,
     MediaModule,
     HealthModule,
   ],

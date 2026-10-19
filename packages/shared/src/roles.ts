@@ -25,6 +25,8 @@ export const PERMISSIONS = [
   'users.manage_roles',
   'audit.read',
   'player_profile.manage',
+  'clubs.manage',
+  'transfers.decide',
 ] as const;
 export type Permission = (typeof PERMISSIONS)[number];
 
@@ -35,6 +37,8 @@ const ADMIN_PERMISSIONS: readonly Permission[] = [
   'users.manage_status',
   'users.manage_roles',
   'audit.read',
+  'clubs.manage',
+  'transfers.decide',
 ];
 
 /**

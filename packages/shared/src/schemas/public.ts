@@ -77,6 +77,8 @@ export const publicClubSchema = z.object({
   tag: z.string(),
   primaryColor: z.string(),
   secondaryColor: z.string(),
+  /** Escudo enviado; sem ele, o portal desenha o emblema pelas cores. */
+  crestUrl: z.string().nullable(),
 });
 export type PublicClub = z.infer<typeof publicClubSchema>;
 
@@ -84,6 +86,7 @@ export const publicPlayerSchema = z.object({
   slug: z.string(),
   nickname: z.string(),
   country: z.string(),
+  avatarUrl: z.string().nullable(),
   club: publicClubSchema.nullable(),
 });
 export type PublicPlayer = z.infer<typeof publicPlayerSchema>;
@@ -220,3 +223,75 @@ export const upcomingMatchesQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(30).default(8),
 });
 export type UpcomingMatchesQuery = z.infer<typeof upcomingMatchesQuerySchema>;
+
+// --- Jogadores e clubes no portal (Fase 2) --------------------------------------------------
+
+export const publicListQuerySchema = z.object({
+  search: z.string().trim().max(60).optional(),
+  page: z.coerce.number().int().min(1).default(1),
+  pageSize: z.coerce.number().int().min(1).max(100).default(24),
+});
+export type PublicListQuery = z.infer<typeof publicListQuerySchema>;
+
+export const playerRecordSchema = z.object({
+  played: z.number().int(),
+  won: z.number().int(),
+  drawn: z.number().int(),
+  lost: z.number().int(),
+  goalsFor: z.number().int(),
+  goalsAgainst: z.number().int(),
+});
+export type PlayerRecord = z.infer<typeof playerRecordSchema>;
+
+export const publicPlayerListItemSchema = publicPlayerSchema.extend({
+  platform: z.enum(GAME_PLATFORMS),
+});
+export type PublicPlayerListItem = z.infer<typeof publicPlayerListItemSchema>;
+
+export const publicMembershipSchema = z.object({
+  club: publicClubSchema,
+  startedOn: isoDate,
+  endedOn: isoDate.nullable(),
+});
+
+export const publicPlayerProfileSchema = publicPlayerListItemSchema.extend({
+  region: z.string().nullable(),
+  memberSince: isoDateTime,
+  /** Vínculos, do mais recente ao mais antigo (o ativo primeiro). */
+  memberships: z.array(publicMembershipSchema),
+  /** Somente partidas com resultado oficial. */
+  record: playerRecordSchema,
+  recentMatches: z.array(publicMatchSchema),
+  upcomingMatches: z.array(publicMatchSchema),
+});
+export type PublicPlayerProfile = z.infer<typeof publicPlayerProfileSchema>;
+
+export const publicClubListItemSchema = publicClubSchema.extend({
+  members: z.number().int(),
+  foundedOn: isoDate.nullable(),
+});
+export type PublicClubListItem = z.infer<typeof publicClubListItemSchema>;
+
+export const publicClubProfileSchema = publicClubListItemSchema.extend({
+  roster: z.array(z.object({ player: publicPlayerListItemSchema, startedOn: isoDate })),
+  /** Ex-jogadores mais recentes. */
+  alumni: z.array(
+    z.object({
+      player: publicPlayerListItemSchema,
+      startedOn: isoDate,
+      endedOn: isoDate,
+    }),
+  ),
+});
+export type PublicClubProfile = z.infer<typeof publicClubProfileSchema>;
+
+export const searchQuerySchema = z.object({
+  q: z.string().trim().min(2, 'Digite pelo menos 2 caracteres.').max(60),
+});
+export type SearchQuery = z.infer<typeof searchQuerySchema>;
+
+export const searchResultSchema = z.object({
+  players: z.array(publicPlayerListItemSchema),
+  clubs: z.array(publicClubListItemSchema),
+});
+export type SearchResult = z.infer<typeof searchResultSchema>;

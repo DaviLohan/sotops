@@ -9,6 +9,8 @@ const COLUMNS: { title: string; links: { href: Route; label: string }[] }[] = [
       { href: '/#competicoes' as Route, label: 'Competições' },
       { href: '/#classificacao' as Route, label: 'Classificação' },
       { href: '/#ranking' as Route, label: 'Ranking' },
+      { href: '/jogadores', label: 'Jogadores' },
+      { href: '/clubes', label: 'Clubes' },
       { href: '/#noticias' as Route, label: 'Notícias' },
     ],
   },

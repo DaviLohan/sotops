@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { Logo } from '@/components/brand/logo';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
+import { SiteSearch } from './site-search';
 
 /** Somente o que existe: as âncoras apontam para seções reais da HOME. */
 export const PORTAL_NAV: { href: Route; label: string }[] = [
@@ -16,7 +17,8 @@ export const PORTAL_NAV: { href: Route; label: string }[] = [
   { href: '/#competicoes' as Route, label: 'Competições' },
   { href: '/#partidas' as Route, label: 'Partidas' },
   { href: '/#classificacao' as Route, label: 'Classificação' },
-  { href: '/#ranking' as Route, label: 'Ranking' },
+  { href: '/jogadores', label: 'Jogadores' },
+  { href: '/clubes', label: 'Clubes' },
   { href: '/#noticias' as Route, label: 'Notícias' },
 ];
 
@@ -63,6 +65,7 @@ export function SiteHeaderShell({ signedIn }: { signedIn: boolean }) {
           ))}
         </nav>
         <div className="ml-auto flex items-center gap-2">
+          <SiteSearch />
           {signedIn ? (
             <Button asChild variant="primary" size="sm">
               <Link href="/painel">Abrir meu painel</Link>

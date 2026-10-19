@@ -87,7 +87,10 @@ export class PlayerProfileController {
   })
   @ApiConsumes('multipart/form-data')
   @ApiImageUpload()
-  @ApiZodResponse(myPlayerProfileDtoSchema, { description: 'Perfil com o novo avatar.' })
+  @ApiZodResponse(myPlayerProfileDtoSchema, {
+    description: 'Perfil com o novo avatar.',
+    status: 201,
+  })
   @ApiProblems(400, 404, 409, 413)
   async uploadAvatar(
     @CurrentAuth() auth: AuthContext,

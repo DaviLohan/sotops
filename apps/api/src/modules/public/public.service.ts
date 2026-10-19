@@ -23,6 +23,8 @@ import {
 } from '../../common/time/federation-time.js';
 import { Prisma } from '../../generated/prisma/client.js';
 import { PrismaService } from '../../infra/prisma/prisma.service.js';
+import { toPublicClub } from '../clubs/club-mappers.js';
+import { mediaUrl } from '../media/media.controller.js';
 import { accumulateTotals, type OfficialResult, rankTotals, winRate } from './standings.js';
 
 const HOME_STANDINGS_SIZE = 5;
@@ -36,11 +38,11 @@ const HOME_CALENDAR_EVENTS = 12;
 /** Jogador só entra no destaque da temporada com esta quantidade mínima de partidas. */
 const TOP_PLAYER_MIN_MATCHES = 3;
 
-const playerInclude = {
+export const playerInclude = {
   memberships: { where: { endedOn: null }, include: { club: true }, take: 1 },
 } satisfies Prisma.PlayerProfileInclude;
 
-const matchInclude = {
+export const matchInclude = {
   competition: { select: { slug: true, name: true } },
   round: { select: { number: true } },
   home: { include: playerInclude },
@@ -48,28 +50,21 @@ const matchInclude = {
 } satisfies Prisma.MatchInclude;
 
 type MatchRow = Prisma.MatchGetPayload<{ include: typeof matchInclude }>;
-type PlayerRow = Prisma.PlayerProfileGetPayload<{ include: typeof playerInclude }>;
+export type PlayerRow = Prisma.PlayerProfileGetPayload<{ include: typeof playerInclude }>;
 
-function toPlayer(row: PlayerRow): PublicPlayer {
+export function toPlayer(row: PlayerRow): PublicPlayer {
   const club = row.memberships[0]?.club;
   return {
     slug: row.slug,
     nickname: row.nickname,
     country: row.country,
-    club: club
-      ? {
-          slug: club.slug,
-          name: club.name,
-          tag: club.tag,
-          primaryColor: club.primaryColor,
-          secondaryColor: club.secondaryColor,
-        }
-      : null,
+    avatarUrl: mediaUrl(row.avatarKey),
+    club: club ? toPublicClub(club) : null,
   };
 }
 
 /** O placar só sai da API quando o resultado é oficial. */
-function toMatch(row: MatchRow): PublicMatch {
+export function toMatch(row: MatchRow): PublicMatch {
   const official = isOfficialMatchStatus(row.status);
   return {
     id: row.id,
@@ -103,7 +98,7 @@ function toNews(row: {
   };
 }
 
-const OFFICIAL_STATUSES: MatchStatus[] = ['HOMOLOGATED', 'WALKOVER'];
+export const OFFICIAL_STATUSES: MatchStatus[] = ['HOMOLOGATED', 'WALKOVER'];
 
 /** Leitura pública. Nada aqui depende de sessão e nada devolve dado de conta. */
 @Injectable()

@@ -3,9 +3,11 @@
 import type { Permission } from '@efed/shared';
 import {
   ArrowLeftRight,
+  ArrowRightLeft,
   Gamepad2,
   LayoutDashboard,
   type LucideIcon,
+  Shield,
   Menu,
   ScrollText,
   ShieldCheck,
@@ -48,6 +50,7 @@ const NAVIGATION: Record<Area, { label: string; items: NavItem[] }> = {
         icon: Gamepad2,
         permission: 'player_profile.manage',
       },
+      { href: '/painel/clube', label: 'Meu clube', icon: Shield },
       { href: '/painel/conta', label: 'Minha conta', icon: UserRound },
       { href: '/painel/seguranca', label: 'Segurança', icon: ShieldCheck },
     ],
@@ -63,6 +66,13 @@ const NAVIGATION: Record<Area, { label: string; items: NavItem[] }> = {
         permission: 'dashboard.read',
       },
       { href: '/admin/usuarios', label: 'Usuários', icon: Users, permission: 'users.read' },
+      { href: '/admin/clubes', label: 'Clubes', icon: Shield, permission: 'clubs.manage' },
+      {
+        href: '/admin/transferencias',
+        label: 'Transferências',
+        icon: ArrowRightLeft,
+        permission: 'transfers.decide',
+      },
       { href: '/admin/auditoria', label: 'Auditoria', icon: ScrollText, permission: 'audit.read' },
     ],
   },

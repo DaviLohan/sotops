@@ -4,7 +4,7 @@ import { cn } from '@/lib/cn';
 const SIZES = { sm: 'h-6', md: 'h-8', lg: 'h-12', xl: 'h-16' } as const;
 
 /**
- * Emblema do clube desenhado a partir das cores cadastradas (enquanto não há escudo enviado).
+ * Escudo do clube: a imagem enviada ou, sem ela, um emblema desenhado com as cores cadastradas.
  * As cores vêm do banco; o texto escolhe claro ou escuro pelo contraste com o fundo.
  */
 export function ClubBadge({
@@ -12,7 +12,11 @@ export function ClubBadge({
   size = 'md',
   className,
 }: {
-  club: Pick<PublicClub, 'name' | 'tag' | 'primaryColor' | 'secondaryColor'> | null;
+  club:
+    | (Pick<PublicClub, 'name' | 'tag' | 'primaryColor' | 'secondaryColor'> & {
+        crestUrl?: string | null;
+      })
+    | null;
   size?: keyof typeof SIZES;
   className?: string;
 }) {
@@ -33,6 +37,17 @@ export function ClubBadge({
           className="text-fg-faint"
         />
       </svg>
+    );
+  }
+  if (club.crestUrl) {
+    return (
+      // Já chega em WebP 256×256 da API; o otimizador do Next.js não acrescenta nada.
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={club.crestUrl}
+        alt={club.name}
+        className={cn('aspect-square w-auto shrink-0 object-contain', SIZES[size], className)}
+      />
     );
   }
   return (

@@ -1,5 +1,6 @@
 import type { ApiResponse, MyPlayerProfileDto } from '@efed/shared';
-import type { Metadata } from 'next';
+import type { Metadata, Route } from 'next';
+import Link from 'next/link';
 import { Callout } from '@/components/ui/callout';
 import { PageHeader } from '@/components/ui/page-header';
 import { AvatarCard } from '@/features/player/avatar-card';
@@ -30,9 +31,19 @@ export default async function PlayerProfilePage() {
         eyebrow="Área do jogador"
         title="Perfil de jogador"
         description={
-          profile
-            ? 'Seus dados de jogo, país e avatar.'
-            : 'Complete seu perfil para disputar competições e aparecer no portal.'
+          profile ? (
+            <>
+              Sua página pública:{' '}
+              <Link
+                className="text-link underline-offset-4 hover:underline"
+                href={`/jogadores/${profile.slug}` as Route}
+              >
+                /jogadores/{profile.slug}
+              </Link>
+            </>
+          ) : (
+            'Complete seu perfil para disputar competições e aparecer no portal.'
+          )
         }
       />
       <PlayerProfileForm profile={profile} />

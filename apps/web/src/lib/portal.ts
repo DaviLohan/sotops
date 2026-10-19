@@ -110,3 +110,32 @@ export function matchStatusTone(status: MatchStatus): 'success' | 'warning' | 'd
 export function pad2(value: number): string {
   return String(value).padStart(2, '0');
 }
+
+/** Termo de busca vindo da URL: texto simples, aparado e limitado ao que a API aceita. */
+export function searchParam(value: string | string[] | undefined): string | undefined {
+  const text = (Array.isArray(value) ? value[0] : value)?.trim().slice(0, 60);
+  return text ? text : undefined;
+}
+
+/** Página vinda da URL (`?pagina=`); qualquer valor inválido vira a primeira. */
+export function pageParam(value: string | string[] | undefined): number {
+  const page = Number(Array.isArray(value) ? value[0] : value);
+  return Number.isInteger(page) && page >= 1 && page <= 10_000 ? page : 1;
+}
+
+const civilDateFormat = new Intl.DateTimeFormat(LOCALE, { dateStyle: 'short', timeZone: 'UTC' });
+const monthYearFormat = new Intl.DateTimeFormat(LOCALE, {
+  month: 'long',
+  year: 'numeric',
+  timeZone: FEDERATION_TIME_ZONE,
+});
+
+/** "01/05/2024" para uma data civil AAAA-MM-DD, sem deslocamento de fuso. */
+export function civilDate(date: string): string {
+  return civilDateFormat.format(utcMidnight(date));
+}
+
+/** "setembro de 2026" para um instante, no fuso da federação. */
+export function monthYear(iso: string): string {
+  return monthYearFormat.format(new Date(iso));
+}

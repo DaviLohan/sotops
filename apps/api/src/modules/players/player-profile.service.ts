@@ -13,6 +13,7 @@ import { IMAGE_CONTENT_TYPE, normalizeImage } from '../../infra/storage/images.j
 import { StorageService } from '../../infra/storage/storage.service.js';
 import { AuditService } from '../audit/audit.service.js';
 import type { AuthContext } from '../auth/auth.types.js';
+import { toPublicClub } from '../clubs/club-mappers.js';
 import { mediaUrl } from '../media/media.controller.js';
 
 const profileInclude = {
@@ -34,15 +35,7 @@ function toDto(row: ProfileRow): MyPlayerProfileDto {
     country: row.country,
     region: row.region,
     avatarUrl: mediaUrl(row.avatarKey),
-    club: club
-      ? {
-          slug: club.slug,
-          name: club.name,
-          tag: club.tag,
-          primaryColor: club.primaryColor,
-          secondaryColor: club.secondaryColor,
-        }
-      : null,
+    club: club ? toPublicClub(club) : null,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   };
