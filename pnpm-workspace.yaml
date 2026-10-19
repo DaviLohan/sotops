@@ -1,0 +1,19 @@
+packages:
+  - apps/*
+  - packages/*
+  - tests/*
+
+# pnpm 10 só executa scripts de instalação de pacotes explicitamente autorizados.
+onlyBuiltDependencies:
+  - '@nestjs/core'
+  - '@prisma/engines'
+  - '@swc/core'
+  - argon2
+  - esbuild
+  - prisma
+  - sharp
+  - unrs-resolver
+
+# Telemetria de instalação do swagger-ui-dist: não é necessária.
+ignoredBuiltDependencies:
+  - '@scarf/scarf'

@@ -1,0 +1,38 @@
+{
+  "name": "efootball-federation",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Plataforma de gestão de uma federação de eFootball 1x1",
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "bootstrap": "pnpm --filter @efed/shared build && pnpm --filter @efed/api db:generate",
+    "dev": "pnpm bootstrap && pnpm --parallel --filter @efed/shared --filter @efed/api --filter @efed/web dev",
+    "build": "pnpm -r --workspace-concurrency=1 build",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm --filter @efed/shared --filter @efed/api --filter @efed/web test",
+    "test:e2e": "pnpm --filter @efed/e2e test",
+    "verify": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test",
+    "db:generate": "pnpm --filter @efed/api db:generate",
+    "db:migrate": "pnpm --filter @efed/api db:migrate",
+    "db:deploy": "pnpm --filter @efed/api db:deploy",
+    "db:seed": "pnpm --filter @efed/api db:seed",
+    "infra:up": "docker compose -f docker-compose.dev.yml up -d --wait",
+    "infra:down": "docker compose -f docker-compose.dev.yml down"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@next/eslint-plugin-next": "16.3.7",
+    "eslint": "10.11.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.12.0",
+    "prettier": "3.9.9",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.0"
+  }
+}

@@ -1,0 +1,117 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TEST_DATABASE_URL: postgresql://efed:ci-password@127.0.0.1:5432/efed_test?schema=public
+  TEST_REDIS_URL: redis://127.0.0.1:6379/1
+  E2E_DATABASE_URL: postgresql://efed:ci-password@127.0.0.1:5432/efed_e2e?schema=public
+  E2E_REDIS_URL: redis://127.0.0.1:6379/2
+
+jobs:
+  quality:
+    name: Lint, tipos, testes e build
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: efed
+          POSTGRES_PASSWORD: ci-password
+          POSTGRES_DB: efed_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U efed" --health-interval 5s --health-timeout 3s --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+        options: >-
+          --health-cmd "redis-cli ping" --health-interval 5s --health-timeout 3s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      # O MinIO precisa do argumento `server`, que os service containers não aceitam.
+      - name: MinIO
+        run: |
+          docker run -d --name minio -p 9000:9000 \
+            -e MINIO_ROOT_USER=efed -e MINIO_ROOT_PASSWORD=ci-password-minio \
+            pgsty/minio:RELEASE.2026-08-04T00-00-00Z server /data
+          timeout 60 sh -c 'until curl -sf http://127.0.0.1:9000/minio/health/live; do sleep 1; done'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm bootstrap
+      - run: pnpm lint
+      - run: pnpm format:check
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+
+  e2e:
+    name: Testes end-to-end
+    runs-on: ubuntu-latest
+    needs: quality
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: efed
+          POSTGRES_PASSWORD: ci-password
+          POSTGRES_DB: efed_e2e
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U efed" --health-interval 5s --health-timeout 3s --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports: ['6379:6379']
+        options: >-
+          --health-cmd "redis-cli ping" --health-interval 5s --health-timeout 3s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      # O MinIO precisa do argumento `server`, que os service containers não aceitam.
+      - name: MinIO
+        run: |
+          docker run -d --name minio -p 9000:9000 \
+            -e MINIO_ROOT_USER=efed -e MINIO_ROOT_PASSWORD=ci-password-minio \
+            pgsty/minio:RELEASE.2026-08-04T00-00-00Z server /data
+          timeout 60 sh -c 'until curl -sf http://127.0.0.1:9000/minio/health/live; do sleep 1; done'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @efed/e2e exec playwright install --with-deps chromium
+      - run: pnpm build
+      - run: pnpm test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: tests/e2e/playwright-report
+          retention-days: 7
+
+  ocr:
+    name: Serviço de OCR
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/ocr-service
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: pytest

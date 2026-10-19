@@ -1,0 +1,263 @@
+{
+  "numTotalTestSuites": 14,
+  "numPassedTestSuites": 14,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 17,
+  "numPassedTests": 17,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790784762223,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["formatRelative"],
+          "fullName": "formatRelative descreve intervalos recentes e antigos em português",
+          "status": "passed",
+          "title": "descreve intervalos recentes e antigos em português",
+          "duration": 3.9779669999999214,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["formatDayMonth"],
+          "fullName": "formatDayMonth não desloca a data civil por causa do fuso",
+          "status": "passed",
+          "title": "não desloca a data civil por causa do fuso",
+          "duration": 0.8294720000000098,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["describeUserAgent"],
+          "fullName": "describeUserAgent resume navegador e sistema",
+          "status": "passed",
+          "title": "resume navegador e sistema",
+          "duration": 0.6922190000000228,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["describeUserAgent"],
+          "fullName": "describeUserAgent lida com ausência de informação",
+          "status": "passed",
+          "title": "lida com ausência de informação",
+          "duration": 0.40007600000001275,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784767831,
+      "endTime": 1790784767837.6921,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/web/src/lib/format.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Button"],
+          "fullName": "Button não envia formulários por padrão",
+          "status": "passed",
+          "title": "não envia formulários por padrão",
+          "duration": 116.92515400000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["Button"],
+          "fullName": "Button bloqueia cliques e sinaliza ocupado enquanto carrega",
+          "status": "passed",
+          "title": "bloqueia cliques e sinaliza ocupado enquanto carrega",
+          "duration": 32.440342999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["Button"],
+          "fullName": "Button aplica a aparência a um link com asChild",
+          "status": "passed",
+          "title": "aplica a aparência a um link com asChild",
+          "duration": 13.981686000000082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784763313,
+      "endTime": 1790784763476.9817,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/web/src/components/ui/button.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["FormField"],
+          "fullName": "FormField liga o rótulo e a dica ao campo",
+          "status": "passed",
+          "title": "liga o rótulo e a dica ao campo",
+          "duration": 165.92193500000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["FormField"],
+          "fullName": "FormField anuncia o erro e marca o campo como inválido",
+          "status": "passed",
+          "title": "anuncia o erro e marca o campo como inválido",
+          "duration": 17.453464999999824,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784764673,
+      "endTime": 1790784764856.4534,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/web/src/components/ui/form-field.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["safeNextPath"],
+          "fullName": "safeNextPath aceita caminhos internos",
+          "status": "passed",
+          "title": "aceita caminhos internos",
+          "duration": 1.8810270000000173,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["safeNextPath"],
+          "fullName": "safeNextPath recusa destinos externos e volta ao padrão",
+          "status": "passed",
+          "title": "recusa destinos externos e volta ao padrão",
+          "duration": 0.5175239999999803,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["applyFieldErrors"],
+          "fullName": "applyFieldErrors associa cada erro ao campo correspondente",
+          "status": "passed",
+          "title": "associa cada erro ao campo correspondente",
+          "duration": 2.123937999999953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["applyFieldErrors"],
+          "fullName": "applyFieldErrors informa quando nenhum erro pôde ser associado",
+          "status": "passed",
+          "title": "informa quando nenhum erro pôde ser associado",
+          "duration": 0.6952720000000454,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784766827,
+      "endTime": 1790784766832.6953,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/web/src/features/auth/form-helpers.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["errorFromResponse"],
+          "fullName": "errorFromResponse converte problem details em ApiError com erros de campo",
+          "status": "passed",
+          "title": "converte problem details em ApiError com erros de campo",
+          "duration": 5.9689710000000105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["errorFromResponse"],
+          "fullName": "errorFromResponse cai em um erro genérico quando o corpo não é um problem details",
+          "status": "passed",
+          "title": "cai em um erro genérico quando o corpo não é um problem details",
+          "duration": 1.0448539999999866,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["messageFor"],
+          "fullName": "messageFor traduz o bloqueio temporário em tempo de espera",
+          "status": "passed",
+          "title": "traduz o bloqueio temporário em tempo de espera",
+          "duration": 1.038473999999951,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["messageFor"],
+          "fullName": "messageFor prefere o detalhe ao título e nunca expõe erros inesperados",
+          "status": "passed",
+          "title": "prefere o detalhe ao título e nunca expõe erros inesperados",
+          "duration": 0.9223399999999629,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784765841,
+      "endTime": 1790784765849.9224,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/web/src/lib/api/errors.test.ts"
+    }
+  ]
+}

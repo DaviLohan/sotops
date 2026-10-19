@@ -1,0 +1,9 @@
+{
+  "name": "@efed/config",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Configurações compartilhadas de TypeScript do monorepositório",
+  "files": [
+    "tsconfig.base.json"
+  ]
+}

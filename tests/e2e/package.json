@@ -1,0 +1,23 @@
+{
+  "name": "@efed/e2e",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Testes end-to-end dos principais fluxos (Playwright)",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@efed/config": "workspace:*",
+    "@playwright/test": "1.63.0",
+    "@types/node": "22.20.4",
+    "@types/smtp-server": "3.5.13",
+    "mailparser": "3.9.32",
+    "@types/mailparser": "3.9.0",
+    "pg": "8.23.0",
+    "@types/pg": "8.23.1",
+    "smtp-server": "3.19.16",
+    "typescript": "6.0.3"
+  }
+}

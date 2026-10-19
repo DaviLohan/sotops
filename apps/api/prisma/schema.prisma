@@ -1,0 +1,461 @@
+// Modelo de dados da federação — Fase 1 (identidade, acesso e auditoria).
+// As tabelas dos demais domínios entram por migrations próprias em cada fase
+// (ver docs/05-modelo-de-dados.md).
+
+generator client {
+  provider               = "prisma-client"
+  output                 = "../src/generated/prisma"
+  moduleFormat           = "esm"
+  generatedFileExtension = "ts"
+  importFileExtension    = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserStatus {
+  PENDING_VERIFICATION
+  ACTIVE
+  SUSPENDED
+  DEACTIVATED
+
+  @@map("user_status")
+}
+
+enum RoleKey {
+  SUPER_ADMIN
+  ADMIN
+  ORGANIZER
+  REFEREE
+  PLAYER
+
+  @@map("role_key")
+}
+
+enum UserTokenType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+
+  @@map("user_token_type")
+}
+
+enum SessionEndReason {
+  LOGOUT
+  REVOKED_BY_USER
+  REVOKED_BY_ADMIN
+  PASSWORD_CHANGED
+  PASSWORD_RESET
+  ACCOUNT_SUSPENDED
+  MFA_CHANGED
+
+  @@map("session_end_reason")
+}
+
+/// Conta de acesso. Nunca é excluída fisicamente: o histórico competitivo e a
+/// auditoria dependem dela. A eliminação prevista na LGPD é feita por anonimização.
+model User {
+  id                      String     @id @default(uuid(7)) @db.Uuid
+  /// Sempre em minúsculas (garantido por CHECK).
+  email                   String     @unique @db.VarChar(254)
+  /// Sempre em minúsculas, `[a-z0-9_]{3,20}` (garantido por CHECK).
+  username                String     @unique @db.VarChar(20)
+  displayName             String     @map("display_name") @db.VarChar(40)
+  passwordHash            String     @map("password_hash")
+  status                  UserStatus @default(PENDING_VERIFICATION)
+  emailVerifiedAt         DateTime?  @map("email_verified_at") @db.Timestamptz(3)
+  privacyNoticeVersion    String     @map("privacy_notice_version") @db.VarChar(20)
+  privacyNoticeAcceptedAt DateTime   @map("privacy_notice_accepted_at") @db.Timestamptz(3)
+  failedLoginCount        Int        @default(0) @map("failed_login_count")
+  lockedUntil             DateTime?  @map("locked_until") @db.Timestamptz(3)
+  lastLoginAt             DateTime?  @map("last_login_at") @db.Timestamptz(3)
+  createdAt               DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt               DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  roles         UserRole[]        @relation("user_roles_user")
+  grantedRoles  UserRole[]        @relation("user_roles_granted_by")
+  sessions      Session[]
+  tokens        UserToken[]
+  totp          UserTotp?
+  recoveryCodes MfaRecoveryCode[]
+  auditLogs     AuditLog[]
+  playerProfile PlayerProfile?
+  newsAuthored  News[]
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("users")
+}
+
+/// Dados de referência, inseridos por migration.
+model Role {
+  id          String   @id @default(uuid(7)) @db.Uuid
+  key         RoleKey  @unique
+  name        String   @db.VarChar(50)
+  description String   @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  users UserRole[]
+
+  @@map("roles")
+}
+
+model UserRole {
+  userId      String   @map("user_id") @db.Uuid
+  roleId      String   @map("role_id") @db.Uuid
+  grantedById String?  @map("granted_by_id") @db.Uuid
+  grantedAt   DateTime @default(now()) @map("granted_at") @db.Timestamptz(3)
+
+  user      User  @relation("user_roles_user", fields: [userId], references: [id], onDelete: Restrict)
+  role      Role  @relation(fields: [roleId], references: [id], onDelete: Restrict)
+  grantedBy User? @relation("user_roles_granted_by", fields: [grantedById], references: [id], onDelete: Restrict)
+
+  @@id([userId, roleId])
+  @@index([roleId])
+  @@map("user_roles")
+}
+
+/// Sessão de navegador. O cookie carrega um token opaco; o banco guarda apenas o SHA-256.
+model Session {
+  id            String            @id @default(uuid(7)) @db.Uuid
+  userId        String            @map("user_id") @db.Uuid
+  tokenHash     String            @unique @map("token_hash") @db.Char(64)
+  /// Nulo enquanto a sessão aguarda o segundo fator.
+  mfaVerifiedAt DateTime?         @map("mfa_verified_at") @db.Timestamptz(3)
+  ipAddress     String?           @map("ip_address") @db.VarChar(45)
+  userAgent     String?           @map("user_agent") @db.VarChar(512)
+  createdAt     DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  lastSeenAt    DateTime          @default(now()) @map("last_seen_at") @db.Timestamptz(3)
+  /// Expiração por inatividade (renovada a cada uso).
+  idleExpiresAt DateTime          @map("idle_expires_at") @db.Timestamptz(3)
+  /// Expiração absoluta (nunca renovada).
+  expiresAt     DateTime          @map("expires_at") @db.Timestamptz(3)
+  endedAt       DateTime?         @map("ended_at") @db.Timestamptz(3)
+  endReason     SessionEndReason? @map("end_reason")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([userId, endedAt])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+/// Tokens de uso único enviados por e-mail. Apenas o SHA-256 é armazenado.
+model UserToken {
+  id        String        @id @default(uuid(7)) @db.Uuid
+  userId    String        @map("user_id") @db.Uuid
+  type      UserTokenType
+  tokenHash String        @unique @map("token_hash") @db.Char(64)
+  expiresAt DateTime      @map("expires_at") @db.Timestamptz(3)
+  usedAt    DateTime?     @map("used_at") @db.Timestamptz(3)
+  createdAt DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([userId, type])
+  @@map("user_tokens")
+}
+
+/// Segredo TOTP cifrado com AES-256-GCM. `confirmedAt` nulo = cadastro em andamento.
+model UserTotp {
+  userId           String    @id @map("user_id") @db.Uuid
+  secretCiphertext String    @map("secret_ciphertext")
+  confirmedAt      DateTime? @map("confirmed_at") @db.Timestamptz(3)
+  /// Último passo de tempo aceito, para impedir a reutilização do mesmo código.
+  lastUsedStep     BigInt?   @map("last_used_step")
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@map("user_totp")
+}
+
+model MfaRecoveryCode {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  codeHash  String    @map("code_hash") @db.Char(64)
+  usedAt    DateTime? @map("used_at") @db.Timestamptz(3)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, codeHash])
+  @@map("mfa_recovery_codes")
+}
+
+/// Trilha de auditoria somente de inserção (UPDATE e DELETE bloqueados por trigger).
+model AuditLog {
+  id          String   @id @default(uuid(7)) @db.Uuid
+  occurredAt  DateTime @default(now()) @map("occurred_at") @db.Timestamptz(3)
+  actorUserId String?  @map("actor_user_id") @db.Uuid
+  /// Verbo no formato `dominio.recurso.evento`, ex.: `auth.login.succeeded`.
+  action      String   @db.VarChar(100)
+  entityType  String?  @map("entity_type") @db.VarChar(50)
+  entityId    String?  @map("entity_id") @db.VarChar(100)
+  metadata    Json?
+  ipAddress   String?  @map("ip_address") @db.VarChar(45)
+  userAgent   String?  @map("user_agent") @db.VarChar(512)
+  requestId   String?  @map("request_id") @db.VarChar(64)
+
+  actor User? @relation(fields: [actorUserId], references: [id], onDelete: Restrict)
+
+  @@index([occurredAt])
+  @@index([actorUserId, occurredAt])
+  @@index([entityType, entityId, occurredAt])
+  @@index([action, occurredAt])
+  @@map("audit_logs")
+}
+
+// ---------------------------------------------------------------------------
+// Modelo de leitura do portal (competições, partidas, notícias).
+// Antecipa o mínimo das Fases 2, 3 e 5 para alimentar a HOME com dados reais.
+// Classificação, ranking e estatísticas NÃO têm tabela própria: são calculados a
+// partir das partidas homologadas (fonte única). A Fase 5 pode materializá-los.
+// ---------------------------------------------------------------------------
+
+enum GamePlatform {
+  PLAYSTATION
+  XBOX
+  PC
+  MOBILE
+
+  @@map("game_platform")
+}
+
+enum CompetitionFormat {
+  LEAGUE
+  GROUPS
+  KNOCKOUT
+
+  @@map("competition_format")
+}
+
+enum CompetitionStatus {
+  DRAFT
+  REGISTRATION_OPEN
+  IN_PROGRESS
+  FINISHED
+
+  @@map("competition_status")
+}
+
+enum MatchStatus {
+  SCHEDULED
+  AVAILABLE
+  AWAITING_RESULT
+  AWAITING_CONFIRMATION
+  UNDER_REVIEW
+  HOMOLOGATED
+  POSTPONED
+  CANCELED
+  WALKOVER
+
+  @@map("match_status")
+}
+
+enum NewsStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+
+  @@map("news_status")
+}
+
+/// Identidade competitiva pública do jogador. `nickname` é o nome exibido no portal;
+/// e-mail e demais dados da conta nunca saem da API pública.
+model PlayerProfile {
+  id        String       @id @default(uuid(7)) @db.Uuid
+  userId    String       @unique @map("user_id") @db.Uuid
+  nickname  String       @db.VarChar(24)
+  /// Minúsculas, `[a-z0-9_]{3,24}` (CHECK). Usado na URL pública.
+  slug      String       @unique @db.VarChar(24)
+  /// ISO 3166-1 alfa-2, maiúsculas.
+  country   String       @db.Char(2)
+  platform  GamePlatform
+  createdAt DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime     @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user        User               @relation(fields: [userId], references: [id], onDelete: Restrict)
+  memberships ClubMembership[]
+  entries     CompetitionEntry[]
+  homeMatches Match[]            @relation("match_home")
+  awayMatches Match[]            @relation("match_away")
+
+  @@map("player_profiles")
+}
+
+model Club {
+  id             String    @id @default(uuid(7)) @db.Uuid
+  slug           String    @unique @db.VarChar(60)
+  name           String    @db.VarChar(60)
+  /// Sigla em maiúsculas, 2 a 4 caracteres (CHECK).
+  tag            String    @unique @db.VarChar(4)
+  /// `#RRGGBB` (CHECK). Enquanto não há escudo enviado, o portal desenha o emblema com estas cores.
+  primaryColor   String    @map("primary_color") @db.Char(7)
+  secondaryColor String    @map("secondary_color") @db.Char(7)
+  foundedOn      DateTime? @map("founded_on") @db.Date
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  memberships ClubMembership[]
+
+  @@map("clubs")
+}
+
+/// Vínculo com início e fim. No máximo um vínculo ativo (`ended_on IS NULL`) por jogador,
+/// garantido por índice único parcial na migration.
+model ClubMembership {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  clubId    String    @map("club_id") @db.Uuid
+  playerId  String    @map("player_id") @db.Uuid
+  startedOn DateTime  @map("started_on") @db.Date
+  endedOn   DateTime? @map("ended_on") @db.Date
+
+  club   Club          @relation(fields: [clubId], references: [id], onDelete: Restrict)
+  player PlayerProfile @relation(fields: [playerId], references: [id], onDelete: Restrict)
+
+  @@index([clubId])
+  @@index([playerId])
+  @@map("club_memberships")
+}
+
+model Season {
+  id        String   @id @default(uuid(7)) @db.Uuid
+  slug      String   @unique @db.VarChar(40)
+  name      String   @db.VarChar(60)
+  year      Int
+  startsOn  DateTime @map("starts_on") @db.Date
+  endsOn    DateTime @map("ends_on") @db.Date
+  /// No máximo uma temporada corrente (índice único parcial na migration).
+  isCurrent Boolean  @default(false) @map("is_current")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  competitions Competition[]
+
+  @@map("seasons")
+}
+
+model Competition {
+  id                   String            @id @default(uuid(7)) @db.Uuid
+  seasonId             String            @map("season_id") @db.Uuid
+  slug                 String            @unique @db.VarChar(80)
+  name                 String            @db.VarChar(80)
+  format               CompetitionFormat
+  status               CompetitionStatus @default(DRAFT)
+  /// Competição exibida em destaque na HOME (no máximo uma, índice único parcial).
+  isFeatured           Boolean           @default(false) @map("is_featured")
+  maxParticipants      Int               @map("max_participants")
+  roundsTotal          Int?              @map("rounds_total")
+  description          String?           @db.VarChar(400)
+  registrationClosesOn DateTime?         @map("registration_closes_on") @db.Date
+  startsOn             DateTime?         @map("starts_on") @db.Date
+  endsOn               DateTime?         @map("ends_on") @db.Date
+  createdAt            DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  season  Season             @relation(fields: [seasonId], references: [id], onDelete: Restrict)
+  entries CompetitionEntry[]
+  rounds  Round[]
+  matches Match[]
+
+  @@index([status])
+  @@index([seasonId])
+  @@map("competitions")
+}
+
+model CompetitionEntry {
+  id            String   @id @default(uuid(7)) @db.Uuid
+  competitionId String   @map("competition_id") @db.Uuid
+  playerId      String   @map("player_id") @db.Uuid
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  competition Competition   @relation(fields: [competitionId], references: [id], onDelete: Restrict)
+  player      PlayerProfile @relation(fields: [playerId], references: [id], onDelete: Restrict)
+
+  @@unique([competitionId, playerId])
+  @@index([playerId])
+  @@map("competition_entries")
+}
+
+model Round {
+  id            String   @id @default(uuid(7)) @db.Uuid
+  competitionId String   @map("competition_id") @db.Uuid
+  number        Int
+  name          String?  @db.VarChar(60)
+  startsOn      DateTime @map("starts_on") @db.Date
+  endsOn        DateTime @map("ends_on") @db.Date
+
+  competition Competition @relation(fields: [competitionId], references: [id], onDelete: Restrict)
+  matches     Match[]
+
+  @@unique([competitionId, number])
+  @@map("rounds")
+}
+
+/// Partida 1x1. O resultado só vale quando `status = HOMOLOGATED` (ou WALKOVER);
+/// placar de partida não homologada nunca é exibido como oficial.
+model Match {
+  id            String      @id @default(uuid(7)) @db.Uuid
+  competitionId String      @map("competition_id") @db.Uuid
+  roundId       String      @map("round_id") @db.Uuid
+  homePlayerId  String      @map("home_player_id") @db.Uuid
+  awayPlayerId  String      @map("away_player_id") @db.Uuid
+  scheduledAt   DateTime    @map("scheduled_at") @db.Timestamptz(3)
+  status        MatchStatus @default(SCHEDULED)
+  homeScore     Int?        @map("home_score")
+  awayScore     Int?        @map("away_score")
+  homologatedAt DateTime?   @map("homologated_at") @db.Timestamptz(3)
+  createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt     DateTime    @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  competition Competition   @relation(fields: [competitionId], references: [id], onDelete: Restrict)
+  round       Round         @relation(fields: [roundId], references: [id], onDelete: Restrict)
+  home        PlayerProfile @relation("match_home", fields: [homePlayerId], references: [id], onDelete: Restrict)
+  away        PlayerProfile @relation("match_away", fields: [awayPlayerId], references: [id], onDelete: Restrict)
+
+  @@index([competitionId, status])
+  @@index([status, scheduledAt])
+  @@index([homologatedAt])
+  @@index([roundId])
+  @@index([homePlayerId])
+  @@index([awayPlayerId])
+  @@map("matches")
+}
+
+model News {
+  id           String     @id @default(uuid(7)) @db.Uuid
+  slug         String     @unique @db.VarChar(120)
+  title        String     @db.VarChar(140)
+  summary      String     @db.VarChar(300)
+  body         String
+  category     String     @db.VarChar(40)
+  imageUrl     String?    @map("image_url") @db.VarChar(500)
+  status       NewsStatus @default(DRAFT)
+  /// Em `SCHEDULED`, a notícia passa a público quando `published_at <= now()`.
+  publishedAt  DateTime?  @map("published_at") @db.Timestamptz(3)
+  isFeatured   Boolean    @default(false) @map("is_featured")
+  authorUserId String?    @map("author_user_id") @db.Uuid
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt    DateTime   @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  author User? @relation(fields: [authorUserId], references: [id], onDelete: Restrict)
+
+  @@index([status, publishedAt])
+  @@map("news")
+}
+
+/// Chamada editorial do hero da HOME. Vale a mais recente ativa dentro da janela de exibição.
+model Banner {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  eyebrow   String?   @db.VarChar(60)
+  title     String    @db.VarChar(120)
+  subtitle  String?   @db.VarChar(200)
+  imageUrl  String?   @map("image_url") @db.VarChar(500)
+  ctaLabel  String?   @map("cta_label") @db.VarChar(40)
+  ctaHref   String?   @map("cta_href") @db.VarChar(200)
+  isActive  Boolean   @default(true) @map("is_active")
+  startsAt  DateTime? @map("starts_at") @db.Timestamptz(3)
+  endsAt    DateTime? @map("ends_at") @db.Timestamptz(3)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([isActive, createdAt])
+  @@map("banners")
+}

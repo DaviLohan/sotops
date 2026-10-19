@@ -1,0 +1,13 @@
+{
+  "extends": "@efed/config/tsconfig.base.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "types": ["node"],
+    "noEmit": true
+  },
+  "include": ["src", "test", "prisma", "prisma.config.ts", "vitest.config.ts"]
+}

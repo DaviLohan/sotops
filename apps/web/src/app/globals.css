@@ -1,0 +1,303 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/*
+ * Design tokens da federação.
+ *
+ * 1. Primitivos: a paleta bruta. Nunca são usados diretamente nos componentes.
+ * 2. Semânticos: o papel de cada cor na interface. Um novo tema redefine só esta camada.
+ * 3. @theme: expõe os semânticos como utilitários do Tailwind (bg-canvas, text-fg-muted…).
+ */
+:root {
+  /* 1. Primitivos */
+  --navy-975: #070a18;
+  --navy-950: #080b20;
+  --navy-900: #0d122b;
+  --navy-850: #121936;
+  --navy-800: #171f42;
+  --navy-750: #1e2852;
+  --blue-600: #2445ff;
+  --blue-500: #3d5aff;
+  --blue-electric: #246bfd;
+  --blue-400: #6f8fff;
+  --yellow-400: #f4f600;
+  --yellow-500: #dcde00;
+  --white: #f8faff;
+  --slate-300: #a4adc5;
+  /* Texto terciário: #7C86A2 em vez do #6F7891 do guia (4,4:1 sobre a superfície elevada; o
+     original ficava em 3,6:1). O valor original segue disponível para decoração. */
+  --slate-400: #7c86a2;
+  --slate-500: #6f7891;
+  --green-500: #22c55e;
+  --amber-500: #f59e0b;
+  --red-500: #ef4444;
+  --sky-400: #7ab8ff;
+
+  /* 2. Semânticos */
+  --canvas: var(--navy-950);
+  --canvas-deep: var(--navy-975);
+  --surface: var(--navy-900);
+  --surface-raised: var(--navy-850);
+  --surface-elevated: var(--navy-800);
+  --surface-sunken: var(--navy-975);
+  --surface-hover: var(--navy-750);
+
+  --border: rgb(255 255 255 / 0.08);
+  --border-strong: rgb(255 255 255 / 0.18);
+
+  --fg: var(--white);
+  --fg-muted: var(--slate-300);
+  --fg-subtle: var(--slate-400);
+  --fg-faint: var(--slate-500);
+
+  --brand: var(--blue-600);
+  --brand-hover: var(--blue-500);
+  --brand-fg: var(--white);
+  --brand-soft: rgb(36 69 255 / 0.28);
+  --electric: var(--blue-electric);
+
+  --accent: var(--yellow-400);
+  --accent-hover: var(--yellow-500);
+  --accent-fg: var(--navy-975);
+  --accent-soft: rgb(244 246 0 / 0.12);
+
+  --success: var(--green-500);
+  --success-soft: rgb(34 197 94 / 0.14);
+  --warning: var(--amber-500);
+  --warning-soft: rgb(245 158 11 / 0.14);
+  --danger: var(--red-500);
+  --danger-soft: rgb(239 68 68 / 0.15);
+  --info: var(--sky-400);
+  --info-soft: rgb(122 184 255 / 0.13);
+
+  --ring: var(--yellow-400);
+  --link: var(--blue-400);
+  --overlay: rgb(4 6 18 / 0.72);
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-canvas-deep: var(--canvas-deep);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-fg-faint: var(--fg-faint);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-fg: var(--brand-fg);
+  --color-brand-soft: var(--brand-soft);
+  --color-electric: var(--electric);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-ring: var(--ring);
+  --color-link: var(--link);
+  --color-overlay: var(--overlay);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: 'Saira Condensed', var(--font-geist-sans), ui-sans-serif, sans-serif;
+
+  /* Cantos secos: a identidade é esportiva, não de aplicativo. */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.375rem;
+  --radius-xl: 0.5rem;
+
+  --shadow-raised: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 12px 32px -16px rgb(0 0 0 / 0.6);
+  --shadow-overlay: 0 24px 64px -16px rgb(0 0 0 / 0.75);
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    background: var(--canvas);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    background: var(--canvas);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+
+  /* Foco sempre visível para navegação por teclado. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--fg-subtle);
+  }
+
+  /* O preenchimento automático do navegador não deve quebrar o tema escuro. */
+  input:-webkit-autofill {
+    -webkit-text-fill-color: var(--fg);
+    box-shadow: 0 0 0 1000px var(--surface-sunken) inset;
+    caret-color: var(--fg);
+  }
+}
+
+@layer utilities {
+  /* Títulos e números de placar: condensado, caixa alta, apertado. */
+  .type-display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  /*
+   * Escala tipográfica. Só definem tamanho e entrelinha; a família vem de `type-display`
+   * (títulos, placares, números) ou do corpo. Os três maiores fluem entre o valor do celular
+   * e o valor de desktop do guia de marca.
+   */
+  .type-xxl {
+    font-size: clamp(2.75rem, 7.5vw, 4rem); /* 64px */
+    line-height: 0.96;
+  }
+  .type-xl {
+    font-size: clamp(2.25rem, 5.5vw, 3rem); /* 48px */
+    line-height: 1;
+  }
+  .type-h1 {
+    font-size: clamp(1.875rem, 4vw, 2.25rem); /* 36px */
+    line-height: 1.05;
+  }
+  .type-h2 {
+    font-size: clamp(1.5rem, 3vw, 1.75rem); /* 28px */
+    line-height: 1.1;
+  }
+  .type-h3 {
+    font-size: 1.3125rem; /* 21px */
+    line-height: 1.2;
+  }
+  .type-lead {
+    font-size: 1.0625rem; /* 17px */
+    line-height: 1.55;
+  }
+  .type-body {
+    font-size: 0.9375rem; /* 15px */
+    line-height: 1.55;
+  }
+  .type-small {
+    font-size: 0.8125rem; /* 13px */
+    line-height: 1.45;
+  }
+  .type-caption {
+    font-size: 0.71875rem; /* 11.5px */
+    line-height: 1.3;
+  }
+  /* Placar: 48px no celular, até 80px nos destaques. */
+  .type-score {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(3rem, 9vw, 5rem);
+    line-height: 0.9;
+    font-variant-numeric: tabular-nums;
+  }
+  .type-score-sm {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  /* Números de estatística: 24px até 40px. */
+  .type-stat {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3.4vw, 2.5rem);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Numeral grande só com contorno, usado como elemento gráfico (ex.: número da rodada). */
+  .ghost-numeral {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 2px rgb(255 255 255 / 0.16);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Canto superior direito cortado em diagonal, como faixa de transmissão esportiva. */
+  .clip-notch {
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+  }
+
+  /* Rótulo pequeno em caixa alta (sobretítulos, cabeçalhos de tabela). */
+  .type-eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  /* Seta do <select> nativo. */
+  .select-chevron {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A8B1C7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "extends": "@efed/config/tsconfig.base.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["node"],
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true
+  },
+  "include": ["playwright.config.ts", "specs", "support"]
+}

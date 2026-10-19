@@ -1,0 +1,1325 @@
+{
+  "numTotalTestSuites": 33,
+  "numPassedTestSuites": 33,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 107,
+  "numPassedTests": 107,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790784735218,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["integridade dos dados no banco"],
+          "fullName": "integridade dos dados no banco impede alterar ou apagar registros de auditoria",
+          "status": "passed",
+          "title": "impede alterar ou apagar registros de auditoria",
+          "duration": 363.058137,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["integridade dos dados no banco"],
+          "fullName": "integridade dos dados no banco impede a exclusão física de uma conta com histórico",
+          "status": "passed",
+          "title": "impede a exclusão física de uma conta com histórico",
+          "duration": 117.84385600000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["integridade dos dados no banco"],
+          "fullName": "integridade dos dados no banco garante no banco o formato de e-mail e de nome de usuário",
+          "status": "passed",
+          "title": "garante no banco o formato de e-mail e de nome de usuário",
+          "duration": 35.905979000000116,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["integridade dos dados no banco"],
+          "fullName": "integridade dos dados no banco nunca grava senhas, tokens ou códigos nos metadados de auditoria",
+          "status": "passed",
+          "title": "nunca grava senhas, tokens ou códigos nos metadados de auditoria",
+          "duration": 191.28865199999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784757159,
+      "endTime": 1790784757868.2886,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/api/test/audit-integrity.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["proteção contra CSRF"],
+          "fullName": "proteção contra CSRF recusa alterações autenticadas sem o token da sessão",
+          "status": "passed",
+          "title": "recusa alterações autenticadas sem o token da sessão",
+          "duration": 309.2480200000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["proteção contra CSRF"],
+          "fullName": "proteção contra CSRF recusa o token de outra sessão",
+          "status": "passed",
+          "title": "recusa o token de outra sessão",
+          "duration": 149.9520889999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["proteção contra CSRF"],
+          "fullName": "proteção contra CSRF recusa requisições vindas de outra origem, mesmo com token válido",
+          "status": "passed",
+          "title": "recusa requisições vindas de outra origem, mesmo com token válido",
+          "duration": 100.98972500000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["proteção contra CSRF"],
+          "fullName": "proteção contra CSRF recusa requisições com cookie de sessão e sem cabeçalho de origem",
+          "status": "passed",
+          "title": "recusa requisições com cookie de sessão e sem cabeçalho de origem",
+          "duration": 84.16669999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["proteção contra CSRF"],
+          "fullName": "proteção contra CSRF recusa login disparado a partir de outra origem",
+          "status": "passed",
+          "title": "recusa login disparado a partir de outra origem",
+          "duration": 23.44009200000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["proteção contra CSRF"],
+          "fullName": "proteção contra CSRF aceita a alteração com origem autorizada e token correto",
+          "status": "passed",
+          "title": "aceita a alteração com origem autorizada e token correto",
+          "duration": 72.20093799999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["proteção contra CSRF"],
+          "fullName": "proteção contra CSRF não exige token para leituras",
+          "status": "passed",
+          "title": "não exige token para leituras",
+          "duration": 76.358565,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784755355,
+      "endTime": 1790784756172.3586,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/api/test/csrf.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["saúde da API"],
+          "fullName": "saúde da API responde ao liveness sem autenticação",
+          "status": "passed",
+          "title": "responde ao liveness sem autenticação",
+          "duration": 44.72655400000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["saúde da API"],
+          "fullName": "saúde da API confirma PostgreSQL e Redis no readiness",
+          "status": "passed",
+          "title": "confirma PostgreSQL e Redis no readiness",
+          "duration": 97.780753,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["saúde da API"],
+          "fullName": "saúde da API devolve erros no formato problem details com identificador da requisição",
+          "status": "passed",
+          "title": "devolve erros no formato problem details com identificador da requisição",
+          "duration": 5.482611000000134,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["saúde da API"],
+          "fullName": "saúde da API recusa JSON malformado e corpos acima do limite sem erro interno",
+          "status": "passed",
+          "title": "recusa JSON malformado e corpos acima do limite sem erro interno",
+          "duration": 16.399360000000115,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["saúde da API"],
+          "fullName": "saúde da API não expõe cabeçalhos que identificam o servidor",
+          "status": "passed",
+          "title": "não expõe cabeçalhos que identificam o servidor",
+          "duration": 3.2114520000000084,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784760345,
+      "endTime": 1790784760513.2114,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/api/test/health.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["verificação em duas etapas (TOTP)"],
+          "fullName": "verificação em duas etapas (TOTP) ativa o MFA após confirmar um código e entrega dez códigos de recuperação",
+          "status": "passed",
+          "title": "ativa o MFA após confirmar um código e entrega dez códigos de recuperação",
+          "duration": 444.1260970000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["verificação em duas etapas (TOTP)"],
+          "fullName": "verificação em duas etapas (TOTP) guarda o segredo cifrado e os códigos de recuperação como hash",
+          "status": "passed",
+          "title": "guarda o segredo cifrado e os códigos de recuperação como hash",
+          "duration": 175.10074099999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["verificação em duas etapas (TOTP)"],
+          "fullName": "verificação em duas etapas (TOTP) exige a senha para iniciar o cadastro e recusa código incorreto na confirmação",
+          "status": "passed",
+          "title": "exige a senha para iniciar o cadastro e recusa código incorreto na confirmação",
+          "duration": 167.63488499999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["verificação em duas etapas (TOTP)"],
+          "fullName": "verificação em duas etapas (TOTP) exige o segundo fator no login e limita a sessão pendente",
+          "status": "passed",
+          "title": "exige o segundo fator no login e limita a sessão pendente",
+          "duration": 139.2256339999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["verificação em duas etapas (TOTP)"],
+          "fullName": "verificação em duas etapas (TOTP) troca o token da sessão ao concluir o segundo fator",
+          "status": "passed",
+          "title": "troca o token da sessão ao concluir o segundo fator",
+          "duration": 101.49998599999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["verificação em duas etapas (TOTP)"],
+          "fullName": "verificação em duas etapas (TOTP) recusa a reutilização do mesmo código TOTP",
+          "status": "passed",
+          "title": "recusa a reutilização do mesmo código TOTP",
+          "duration": 165.46665900000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["verificação em duas etapas (TOTP)"],
+          "fullName": "verificação em duas etapas (TOTP) aceita cada código de recuperação uma única vez",
+          "status": "passed",
+          "title": "aceita cada código de recuperação uma única vez",
+          "duration": 276.48335799999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["verificação em duas etapas (TOTP)"],
+          "fullName": "verificação em duas etapas (TOTP) conta falhas do segundo fator para o bloqueio temporário da conta",
+          "status": "passed",
+          "title": "conta falhas do segundo fator para o bloqueio temporário da conta",
+          "duration": 154.13095799999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["verificação em duas etapas (TOTP)"],
+          "fullName": "verificação em duas etapas (TOTP) permite ao jogador desativar o MFA, mas não a contas administrativas",
+          "status": "passed",
+          "title": "permite ao jogador desativar o MFA, mas não a contas administrativas",
+          "duration": 275.847491,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["verificação em duas etapas (TOTP)"],
+          "fullName": "verificação em duas etapas (TOTP) gera novos códigos de recuperação e invalida os anteriores",
+          "status": "passed",
+          "title": "gera novos códigos de recuperação e invalida os anteriores",
+          "duration": 207.7915420000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784743949,
+      "endTime": 1790784746058.7915,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/api/test/mfa.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["recuperação e troca de senha"],
+          "fullName": "recuperação e troca de senha responde igual para e-mails cadastrados e desconhecidos, enviando o link só ao titular",
+          "status": "passed",
+          "title": "responde igual para e-mails cadastrados e desconhecidos, enviando o link só ao titular",
+          "duration": 304.8826059999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["recuperação e troca de senha"],
+          "fullName": "recuperação e troca de senha redefine a senha, encerra todas as sessões e avisa o titular",
+          "status": "passed",
+          "title": "redefine a senha, encerra todas as sessões e avisa o titular",
+          "duration": 357.268908,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["recuperação e troca de senha"],
+          "fullName": "recuperação e troca de senha aceita o token de redefinição uma única vez",
+          "status": "passed",
+          "title": "aceita o token de redefinição uma única vez",
+          "duration": 150.39440700000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["recuperação e troca de senha"],
+          "fullName": "recuperação e troca de senha aceita apenas uma de duas redefinições simultâneas com o mesmo token",
+          "status": "passed",
+          "title": "aceita apenas uma de duas redefinições simultâneas com o mesmo token",
+          "duration": 104.39411699999982,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["recuperação e troca de senha"],
+          "fullName": "recuperação e troca de senha recusa o token expirado e não usa token de verificação como token de senha",
+          "status": "passed",
+          "title": "recusa o token expirado e não usa token de verificação como token de senha",
+          "duration": 114.60913699999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["recuperação e troca de senha"],
+          "fullName": "recuperação e troca de senha libera a conta bloqueada por tentativas após a redefinição",
+          "status": "passed",
+          "title": "libera a conta bloqueada por tentativas após a redefinição",
+          "duration": 138.6037369999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["recuperação e troca de senha"],
+          "fullName": "recuperação e troca de senha exige a senha atual para trocar a senha",
+          "status": "passed",
+          "title": "exige a senha atual para trocar a senha",
+          "duration": 161.55813100000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["recuperação e troca de senha"],
+          "fullName": "recuperação e troca de senha recusa nova senha igual à atual",
+          "status": "passed",
+          "title": "recusa nova senha igual à atual",
+          "duration": 134.59055500000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["recuperação e troca de senha"],
+          "fullName": "recuperação e troca de senha troca a senha mantendo a sessão atual e encerrando as demais",
+          "status": "passed",
+          "title": "troca a senha mantendo a sessão atual e encerrando as demais",
+          "duration": 264.33111499999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784750073,
+      "endTime": 1790784751804.331,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/api/test/password.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["limite de requisições"],
+          "fullName": "limite de requisições limita as rotas sensíveis de autenticação por endereço IP",
+          "status": "passed",
+          "title": "limita as rotas sensíveis de autenticação por endereço IP",
+          "duration": 248.9440709999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784759069,
+      "endTime": 1790784759317.944,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/api/test/rate-limit.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "acesso"],
+          "fullName": "permissões e administração de usuários acesso nega as rotas administrativas a visitantes e a jogadores",
+          "status": "passed",
+          "title": "nega as rotas administrativas a visitantes e a jogadores",
+          "duration": 602.7533940000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "acesso"],
+          "fullName": "permissões e administração de usuários acesso ignora papéis ou permissões enviados pelo cliente",
+          "status": "passed",
+          "title": "ignora papéis ou permissões enviados pelo cliente",
+          "duration": 247.98611599999958,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "acesso"],
+          "fullName": "permissões e administração de usuários acesso bloqueia o administrador que ainda não cadastrou o MFA",
+          "status": "passed",
+          "title": "bloqueia o administrador que ainda não cadastrou o MFA",
+          "duration": 343.12766899999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "acesso"],
+          "fullName": "permissões e administração de usuários acesso libera o administrador com MFA e expõe suas permissões",
+          "status": "passed",
+          "title": "libera o administrador com MFA e expõe suas permissões",
+          "duration": 254.4522139999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "acesso"],
+          "fullName": "permissões e administração de usuários acesso passa a valer imediatamente quando um papel é revogado",
+          "status": "passed",
+          "title": "passa a valer imediatamente quando um papel é revogado",
+          "duration": 306.769491,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "listagem"],
+          "fullName": "permissões e administração de usuários listagem pagina, filtra e busca usuários sem expor dados sensíveis",
+          "status": "passed",
+          "title": "pagina, filtra e busca usuários sem expor dados sensíveis",
+          "duration": 301.97686699999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "listagem"],
+          "fullName": "permissões e administração de usuários listagem rejeita parâmetros de consulta inválidos",
+          "status": "passed",
+          "title": "rejeita parâmetros de consulta inválidos",
+          "duration": 271.594067,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "listagem"],
+          "fullName": "permissões e administração de usuários listagem trata identificador malformado como recurso inexistente",
+          "status": "passed",
+          "title": "trata identificador malformado como recurso inexistente",
+          "duration": 225.91117500000018,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "papéis"],
+          "fullName": "permissões e administração de usuários papéis permite ao administrador conceder papéis operacionais",
+          "status": "passed",
+          "title": "permite ao administrador conceder papéis operacionais",
+          "duration": 229.3071629999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "papéis"],
+          "fullName": "permissões e administração de usuários papéis impede o administrador de conceder papéis administrativos",
+          "status": "passed",
+          "title": "impede o administrador de conceder papéis administrativos",
+          "duration": 261.17335,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "papéis"],
+          "fullName": "permissões e administração de usuários papéis impede o administrador de alterar outro administrador ou um superadministrador",
+          "status": "passed",
+          "title": "impede o administrador de alterar outro administrador ou um superadministrador",
+          "duration": 286.98499900000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "papéis"],
+          "fullName": "permissões e administração de usuários papéis impede qualquer pessoa de alterar os próprios papéis",
+          "status": "passed",
+          "title": "impede qualquer pessoa de alterar os próprios papéis",
+          "duration": 225.19541899999967,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "papéis"],
+          "fullName": "permissões e administração de usuários papéis permite ao superadministrador promover e rebaixar administradores",
+          "status": "passed",
+          "title": "permite ao superadministrador promover e rebaixar administradores",
+          "duration": 237.70389700000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "papéis"],
+          "fullName": "permissões e administração de usuários papéis audita a alteração de papéis com o que foi concedido e revogado",
+          "status": "passed",
+          "title": "audita a alteração de papéis com o que foi concedido e revogado",
+          "duration": 232.01472099999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "suspensão"],
+          "fullName": "permissões e administração de usuários suspensão suspende a conta, encerra as sessões e bloqueia novos logins",
+          "status": "passed",
+          "title": "suspende a conta, encerra as sessões e bloqueia novos logins",
+          "duration": 267.4293800000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "suspensão"],
+          "fullName": "permissões e administração de usuários suspensão reativa a conta e registra o motivo de cada mudança",
+          "status": "passed",
+          "title": "reativa a conta e registra o motivo de cada mudança",
+          "duration": 335.9052959999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "suspensão"],
+          "fullName": "permissões e administração de usuários suspensão exige motivo e recusa transições inválidas",
+          "status": "passed",
+          "title": "exige motivo e recusa transições inválidas",
+          "duration": 205.13465800000085,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "suspensão"],
+          "fullName": "permissões e administração de usuários suspensão impede suspender a si mesmo ou a contas de nível igual ou superior",
+          "status": "passed",
+          "title": "impede suspender a si mesmo ou a contas de nível igual ou superior",
+          "duration": 244.69721500000014,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "auditoria e indicadores"],
+          "fullName": "permissões e administração de usuários auditoria e indicadores lista eventos de auditoria com filtro por ação e identifica o autor",
+          "status": "passed",
+          "title": "lista eventos de auditoria com filtro por ação e identifica o autor",
+          "duration": 227.3703829999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["permissões e administração de usuários", "auditoria e indicadores"],
+          "fullName": "permissões e administração de usuários auditoria e indicadores calcula os indicadores do dashboard a partir do banco",
+          "status": "passed",
+          "title": "calcula os indicadores do dashboard a partir do banco",
+          "duration": 270.74837299999945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784737260,
+      "endTime": 1790784742840.7483,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/api/test/rbac.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["cadastro e verificação de e-mail"],
+          "fullName": "cadastro e verificação de e-mail cria a conta pendente com o papel de jogador e envia o link de verificação",
+          "status": "passed",
+          "title": "cria a conta pendente com o papel de jogador e envia o link de verificação",
+          "duration": 288.763835,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["cadastro e verificação de e-mail"],
+          "fullName": "cadastro e verificação de e-mail armazena a senha com Argon2id e nunca em texto puro",
+          "status": "passed",
+          "title": "armazena a senha com Argon2id e nunca em texto puro",
+          "duration": 101.57328099999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["cadastro e verificação de e-mail"],
+          "fullName": "cadastro e verificação de e-mail bloqueia o login até a verificação e libera depois dela",
+          "status": "passed",
+          "title": "bloqueia o login até a verificação e libera depois dela",
+          "duration": 237.718568,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["cadastro e verificação de e-mail"],
+          "fullName": "cadastro e verificação de e-mail aceita o token de verificação uma única vez",
+          "status": "passed",
+          "title": "aceita o token de verificação uma única vez",
+          "duration": 96.97858299999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["cadastro e verificação de e-mail"],
+          "fullName": "cadastro e verificação de e-mail recusa um token de verificação expirado",
+          "status": "passed",
+          "title": "recusa um token de verificação expirado",
+          "duration": 82.97755299999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["cadastro e verificação de e-mail"],
+          "fullName": "cadastro e verificação de e-mail guarda apenas o hash do token enviado por e-mail",
+          "status": "passed",
+          "title": "guarda apenas o hash do token enviado por e-mail",
+          "duration": 75.67993200000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["cadastro e verificação de e-mail"],
+          "fullName": "cadastro e verificação de e-mail não revela que o e-mail já está cadastrado e avisa o titular",
+          "status": "passed",
+          "title": "não revela que o e-mail já está cadastrado e avisa o titular",
+          "duration": 87.48783200000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["cadastro e verificação de e-mail"],
+          "fullName": "cadastro e verificação de e-mail informa quando o nome de usuário já está em uso",
+          "status": "passed",
+          "title": "informa quando o nome de usuário já está em uso",
+          "duration": 83.59928799999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["cadastro e verificação de e-mail"],
+          "fullName": "cadastro e verificação de e-mail valida os campos e aponta cada erro pelo caminho",
+          "status": "passed",
+          "title": "valida os campos e aponta cada erro pelo caminho",
+          "duration": 32.06419100000039,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["cadastro e verificação de e-mail"],
+          "fullName": "cadastro e verificação de e-mail reenvia a verificação apenas para contas pendentes, com resposta idêntica",
+          "status": "passed",
+          "title": "reenvia a verificação apenas para contas pendentes, com resposta idêntica",
+          "duration": 111.31638199999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["cadastro e verificação de e-mail"],
+          "fullName": "cadastro e verificação de e-mail registra o cadastro e a verificação na auditoria",
+          "status": "passed",
+          "title": "registra o cadastro e a verificação na auditoria",
+          "duration": 80.616536,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784753156,
+      "endTime": 1790784754435.6165,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/api/test/registration.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["login e sessões"],
+          "fullName": "login e sessões emite um cookie HttpOnly, SameSite=Lax e guarda apenas o hash do token",
+          "status": "passed",
+          "title": "emite um cookie HttpOnly, SameSite=Lax e guarda apenas o hash do token",
+          "duration": 364.56843100000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["login e sessões"],
+          "fullName": "login e sessões retorna a conta autenticada e recusa requisições sem sessão",
+          "status": "passed",
+          "title": "retorna a conta autenticada e recusa requisições sem sessão",
+          "duration": 115.88009199999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["login e sessões"],
+          "fullName": "login e sessões responde da mesma forma para senha incorreta e conta inexistente",
+          "status": "passed",
+          "title": "responde da mesma forma para senha incorreta e conta inexistente",
+          "duration": 125.53324099999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["login e sessões"],
+          "fullName": "login e sessões bloqueia temporariamente a conta após cinco falhas e informa o tempo de espera",
+          "status": "passed",
+          "title": "bloqueia temporariamente a conta após cinco falhas e informa o tempo de espera",
+          "duration": 316.15325200000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["login e sessões"],
+          "fullName": "login e sessões encerra a sessão no logout e invalida o cookie antigo",
+          "status": "passed",
+          "title": "encerra a sessão no logout e invalida o cookie antigo",
+          "duration": 92.28378300000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["login e sessões"],
+          "fullName": "login e sessões expira por inatividade e por validade absoluta",
+          "status": "passed",
+          "title": "expira por inatividade e por validade absoluta",
+          "duration": 164.0849740000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["login e sessões"],
+          "fullName": "login e sessões lista as sessões da conta e permite encerrar uma delas",
+          "status": "passed",
+          "title": "lista as sessões da conta e permite encerrar uma delas",
+          "duration": 191.30268000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["login e sessões"],
+          "fullName": "login e sessões não permite encerrar a sessão de outra conta",
+          "status": "passed",
+          "title": "não permite encerrar a sessão de outra conta",
+          "duration": 134.80402800000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["login e sessões"],
+          "fullName": "login e sessões encerra todas as outras sessões mantendo a atual",
+          "status": "passed",
+          "title": "encerra todas as outras sessões mantendo a atual",
+          "duration": 171.16816599999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["login e sessões"],
+          "fullName": "login e sessões atualiza o nome de exibição da própria conta",
+          "status": "passed",
+          "title": "atualiza o nome de exibição da própria conta",
+          "duration": 107.20849199999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784747025,
+      "endTime": 1790784748810.2085,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/api/test/sessions.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["configuração por variáveis de ambiente"],
+          "fullName": "configuração por variáveis de ambiente aplica padrões e normaliza origens",
+          "status": "passed",
+          "title": "aplica padrões e normaliza origens",
+          "duration": 4.79346000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["configuração por variáveis de ambiente"],
+          "fullName": "configuração por variáveis de ambiente lista todas as variáveis inválidas de uma vez",
+          "status": "passed",
+          "title": "lista todas as variáveis inválidas de uma vez",
+          "duration": 1.5157449999999812,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["configuração por variáveis de ambiente"],
+          "fullName": "configuração por variáveis de ambiente recusa iniciar em produção com segredos de exemplo",
+          "status": "passed",
+          "title": "recusa iniciar em produção com segredos de exemplo",
+          "duration": 0.6923429999999939,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["configuração por variáveis de ambiente"],
+          "fullName": "configuração por variáveis de ambiente exige HTTPS nas origens em produção",
+          "status": "passed",
+          "title": "exige HTTPS nas origens em produção",
+          "duration": 0.9269009999999867,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["configuração por variáveis de ambiente"],
+          "fullName": "configuração por variáveis de ambiente usa cookie com prefixo __Host- e Secure somente em produção",
+          "status": "passed",
+          "title": "usa cookie com prefixo __Host- e Secure somente em produção",
+          "duration": 0.9662759999999935,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784761239,
+      "endTime": 1790784761247.9663,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/api/src/config/env.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["hash de senha"],
+          "fullName": "hash de senha usa Argon2id com os parâmetros configurados e sal aleatório",
+          "status": "passed",
+          "title": "usa Argon2id com os parâmetros configurados e sal aleatório",
+          "duration": 67.069264,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["hash de senha"],
+          "fullName": "hash de senha verifica a senha correta e recusa a incorreta ou um hash malformado",
+          "status": "passed",
+          "title": "verifica a senha correta e recusa a incorreta ou um hash malformado",
+          "duration": 96.253627,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["hash de senha"],
+          "fullName": "hash de senha sinaliza hashes gerados com parâmetros mais fracos",
+          "status": "passed",
+          "title": "sinaliza hashes gerados com parâmetros mais fracos",
+          "duration": 0.37762099999997645,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["cifra de segredos em repouso"],
+          "fullName": "cifra de segredos em repouso cifra e decifra preservando o conteúdo",
+          "status": "passed",
+          "title": "cifra e decifra preservando o conteúdo",
+          "duration": 1.4176090000000272,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["cifra de segredos em repouso"],
+          "fullName": "cifra de segredos em repouso produz textos cifrados diferentes a cada chamada",
+          "status": "passed",
+          "title": "produz textos cifrados diferentes a cada chamada",
+          "duration": 0.4427119999999718,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["cifra de segredos em repouso"],
+          "fullName": "cifra de segredos em repouso falha com chave errada, contexto errado ou conteúdo adulterado",
+          "status": "passed",
+          "title": "falha com chave errada, contexto errado ou conteúdo adulterado",
+          "duration": 1.7391529999999875,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["tokens e códigos"],
+          "fullName": "tokens e códigos gera tokens opacos de 256 bits, únicos e seguros para URL",
+          "status": "passed",
+          "title": "gera tokens opacos de 256 bits, únicos e seguros para URL",
+          "duration": 5.400182000000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["tokens e códigos"],
+          "fullName": "tokens e códigos calcula SHA-256 e HMAC determinísticos",
+          "status": "passed",
+          "title": "calcula SHA-256 e HMAC determinísticos",
+          "duration": 0.9055319999999938,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["tokens e códigos"],
+          "fullName": "tokens e códigos compara em tempo constante sem falhar com tamanhos diferentes",
+          "status": "passed",
+          "title": "compara em tempo constante sem falhar com tamanhos diferentes",
+          "duration": 0.5701510000000098,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["tokens e códigos"],
+          "fullName": "tokens e códigos gera dez códigos de recuperação únicos no formato esperado",
+          "status": "passed",
+          "title": "gera dez códigos de recuperação únicos no formato esperado",
+          "duration": 0.782463000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784760684,
+      "endTime": 1790784760859.7825,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/api/src/infra/crypto/crypto.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["HOTP/TOTP"],
+          "fullName": "HOTP/TOTP reproduz os vetores de teste da RFC 4226",
+          "status": "passed",
+          "title": "reproduz os vetores de teste da RFC 4226",
+          "duration": 3.0215430000000083,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["HOTP/TOTP"],
+          "fullName": "HOTP/TOTP reproduz os vetores SHA-1 da RFC 6238 (truncados para 6 dígitos)",
+          "status": "passed",
+          "title": "reproduz os vetores SHA-1 da RFC 6238 (truncados para 6 dígitos)",
+          "duration": 1.2294839999999851,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["HOTP/TOTP"],
+          "fullName": "HOTP/TOTP codifica e decodifica Base32 sem perdas (RFC 4648)",
+          "status": "passed",
+          "title": "codifica e decodifica Base32 sem perdas (RFC 4648)",
+          "duration": 0.988650999999976,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["HOTP/TOTP"],
+          "fullName": "HOTP/TOTP gera segredos de 160 bits",
+          "status": "passed",
+          "title": "gera segredos de 160 bits",
+          "duration": 1.2115420000000086,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["HOTP/TOTP"],
+          "fullName": "HOTP/TOTP aceita um passo de defasagem para cada lado e nada além disso",
+          "status": "passed",
+          "title": "aceita um passo de defasagem para cada lado e nada além disso",
+          "duration": 1.2661419999999737,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["HOTP/TOTP"],
+          "fullName": "HOTP/TOTP recusa códigos de passos já utilizados",
+          "status": "passed",
+          "title": "recusa códigos de passos já utilizados",
+          "duration": 0.5148389999999949,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["HOTP/TOTP"],
+          "fullName": "HOTP/TOTP recusa códigos com formato inesperado",
+          "status": "passed",
+          "title": "recusa códigos com formato inesperado",
+          "duration": 0.5465039999999988,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["HOTP/TOTP"],
+          "fullName": "HOTP/TOTP monta a URI otpauth com emissor e conta",
+          "status": "passed",
+          "title": "monta a URI otpauth com emissor e conta",
+          "duration": 0.5962700000000041,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784761016,
+      "endTime": 1790784761026.5962,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/api/src/infra/crypto/totp.spec.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["políticas de administração de usuários"],
+          "fullName": "políticas de administração de usuários nunca permite administrar a própria conta",
+          "status": "passed",
+          "title": "nunca permite administrar a própria conta",
+          "duration": 2.5818859999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["políticas de administração de usuários"],
+          "fullName": "políticas de administração de usuários permite ao administrador gerenciar contas operacionais",
+          "status": "passed",
+          "title": "permite ao administrador gerenciar contas operacionais",
+          "duration": 0.8504159999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["políticas de administração de usuários"],
+          "fullName": "políticas de administração de usuários impede o administrador de gerenciar contas administrativas",
+          "status": "passed",
+          "title": "impede o administrador de gerenciar contas administrativas",
+          "duration": 0.4317360000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["políticas de administração de usuários"],
+          "fullName": "políticas de administração de usuários permite ao superadministrador gerenciar qualquer outra conta",
+          "status": "passed",
+          "title": "permite ao superadministrador gerenciar qualquer outra conta",
+          "duration": 0.3996830000000102,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["políticas de administração de usuários"],
+          "fullName": "políticas de administração de usuários nega tudo a quem não tem papel administrativo",
+          "status": "passed",
+          "title": "nega tudo a quem não tem papel administrativo",
+          "duration": 0.2603149999999914,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["políticas de administração de usuários"],
+          "fullName": "políticas de administração de usuários calcula papéis concedidos e revogados",
+          "status": "passed",
+          "title": "calcula papéis concedidos e revogados",
+          "duration": 1.332337999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": ["políticas de administração de usuários"],
+          "fullName": "políticas de administração de usuários valida cada papel concedido ou revogado contra o que o ator pode atribuir",
+          "status": "passed",
+          "title": "valida cada papel concedido ou revogado contra o que o ator pode atribuir",
+          "duration": 0.6706609999999955,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1790784761470,
+      "endTime": 1790784761476.6707,
+      "status": "passed",
+      "message": "",
+      "name": "/home/claude/efootball-federation/apps/api/src/modules/users/user-admin.policy.spec.ts"
+    }
+  ]
+}
