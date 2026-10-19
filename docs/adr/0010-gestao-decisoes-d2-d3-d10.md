@@ -36,7 +36,7 @@ primeiras imagens enviadas por usuários (avatar e escudo).
 
 - Notícias e banners continuam sem imagem enviada pelo painel (formato largo e outro fluxo); entram
   com as páginas `/noticias`.
-- A API usa a credencial raiz do MinIO por padrão (`S3_ACCESS_KEY`/`S3_SECRET_KEY`); em produção,
-  criar um usuário só para a API é pendência da Etapa F.
+- Em desenvolvimento a API usa a credencial raiz do MinIO; em produção, o serviço `minio-init` cria um
+  usuário só da API com acesso apenas ao bucket (`infrastructure/minio/`).
 - Clube sem responsável depende só da federação; a federação pode nomear um responsável a qualquer
   momento.

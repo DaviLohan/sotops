@@ -90,8 +90,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      minio:
-        condition: service_healthy
+      minio-init:
+        condition: service_completed_successfully
     environment:
       NODE_ENV: production
       LOG_LEVEL: ${LOG_LEVEL:-info}
@@ -104,8 +104,9 @@ services:
       REDIS_URL: redis://:${REDIS_PASSWORD:?defina REDIS_PASSWORD no .env}@redis:6379
       S3_ENDPOINT: http://minio:9000
       S3_BUCKET: ${S3_BUCKET:-efed}
-      S3_ACCESS_KEY: ${S3_ACCESS_KEY:-${MINIO_ROOT_USER:-efed}}
-      S3_SECRET_KEY: ${S3_SECRET_KEY:-${MINIO_ROOT_PASSWORD}}
+      # Usuário só da API, criado pelo minio-init (nunca a credencial raiz).
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY:?defina S3_ACCESS_KEY no .env}
+      S3_SECRET_KEY: ${S3_SECRET_KEY:?defina S3_SECRET_KEY no .env}
       ALLOWED_ORIGINS: https://${PUBLIC_HOSTNAME}
       PUBLIC_WEB_URL: https://${PUBLIC_HOSTNAME}
       SESSION_IDLE_TTL_MINUTES: ${SESSION_IDLE_TTL_MINUTES:-10080}
@@ -177,6 +178,25 @@ services:
       interval: 15s
       timeout: 5s
       retries: 10
+
+  # Cria o bucket e o usuário da API no MinIO, e encerra. Roda a cada subida (idempotente).
+  minio-init:
+    image: pgsty/minio:RELEASE.2026-08-04T00-00-00Z
+    <<: *logging
+    restart: 'no'
+    entrypoint: ['/bin/bash', '/init/init.sh']
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-efed}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      S3_BUCKET: ${S3_BUCKET:-efed}
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY}
+      S3_SECRET_KEY: ${S3_SECRET_KEY}
+    volumes:
+      - ./infrastructure/minio:/init:ro
+    networks: [data]
 
   # Backup lógico diário do PostgreSQL, com retenção. Restauração: infrastructure/backup/README.md
   backup:

@@ -103,6 +103,7 @@ flowchart TB
     web[web]
     api[api]
     migrate[migrate<br/>executa e encerra]
+    minioinit[minio-init<br/>bucket e usuário da API]
     ocr[ocr]
     pg[(postgres)]
     redis[(redis)]
@@ -110,14 +111,17 @@ flowchart TB
     backup[backup<br/>pg_dump diário]
   end
   migrate --> pg
-  api -. só sobe após .-> migrate
+  minioinit --> minio
+  api -. só sobe após .-> migrate & minioinit
   proxy --> web & api
-  api --> pg & redis
+  api --> pg & redis & minio
   backup --> pg
 ```
 
 - **Migrations controladas**: o serviço `migrate` roda `prisma migrate deploy` e encerra; a API só
   inicia se ele terminar com sucesso.
+- **MinIO com usuário próprio da API**: o serviço `minio-init` cria o bucket e um usuário com acesso
+  só a ele (`infrastructure/minio/`); a API nunca usa a credencial raiz em produção.
 - **Rede `data` interna**: PostgreSQL, Redis, MinIO e OCR não têm porta publicada nem saída para a
   internet.
 - **Processos sem privilégios** nas imagens da API, do web e do OCR.
@@ -126,9 +130,8 @@ flowchart TB
 - **Health checks** em todos os serviços; política `restart: unless-stopped`; logs com rotação.
 - **Backups**: `infrastructure/backup/README.md`.
 
-> A pilha de produção foi validada em sintaxe (`docker compose config`) e seus artefatos foram
-> exercitados fora do Docker (pacote da API via `pnpm deploy`, build autocontido do web). A subida
-> dos contêineres em si ainda precisa ser executada em um ambiente com Docker — ver `11`.
+> A pilha de produção foi subida e conferida em 19/10/2026 (certificado autoassinado, `.env` com
+> segredos próprios): ver `14`, "Pendências da Etapa B resolvidas".
 
 ## Observabilidade
 

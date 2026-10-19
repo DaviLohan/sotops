@@ -71,3 +71,16 @@ pelo administrador (que ativa o MFA no primeiro acesso), refletida no perfil e n
 | Logotipo com a marca definitiva (D10)                                                  | federação                     |
 | Seletor de clube do pedido de transferência lista até 100 clubes                       | quando passar disso           |
 | Aviso de Privacidade atualizado (versão 2026-10-19) segue pendente de revisão jurídica | antes de abrir ao público     |
+
+## Pendências da Etapa B resolvidas · 19/10/2026
+
+| Item                                  | Como foi resolvido e verificado                                                                                                                                                                                                                                             |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Pilha de produção nunca subida        | `docker compose up --build` com `.env` de produção (segredos aleatórios) e certificado autoassinado: todos os serviços saudáveis; HOME, `/jogadores` e readiness pelo proxy HTTPS; HSTS, CSP e redirecionamento HTTP→HTTPS; migrations aplicadas; backup gerado.            |
+| API usando a credencial raiz do MinIO | Novo serviço `minio-init` (`infrastructure/minio/`) cria o bucket e o usuário `S3_ACCESS_KEY` com política restrita ao bucket. Conferido: o usuário grava, lê e apaga no bucket; não cria outro bucket nem acessa a administração. Idempotente (segunda execução sem erro). |
+
+Observações da subida:
+
+- A imagem do MinIO não tem `sed` nem `grep`; o script de inicialização usa só bash e `mc`.
+- O dump do backup é criado como `root` em `infrastructure/backup/data/` (como já acontecia); para
+  apagar fora do container é preciso `sudo`. Avaliar na Etapa F rodar o backup com o usuário do host.
