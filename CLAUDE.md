@@ -3,10 +3,10 @@
 Plataforma de gestão de uma federação de eFootball 1 contra 1: portal público, área do jogador,
 painel administrativo, motor de competições e central de resultados por OCR.
 
-**Estado:** Fase 1 (fundação) concluída + HOME pública com dados reais (modelo de leitura de
-competições, ADR 0008; auditoria em `docs/12`). Antes de qualquer trabalho, leia
-`docs/10-plano-de-fases.md` (o que vem a seguir) e `docs/11-fase-1-aceitacao-e-testes.md`
-(o que está verificado e o que ficou pendente).
+**Estado:** Fase 1 (fundação) e Fase 2 (gestão: perfil, clubes, transferências, portal de jogadores
+e clubes, conteúdo) concluídas, seguindo as etapas de `docs/13`. Próxima: **Etapa C (competições,
+Fase 3)**. Antes de qualquer trabalho, leia `docs/10-plano-de-fases.md` e
+`docs/14-aceitacao-sistema-funcional.md` (o que está verificado e o que ficou pendente por etapa).
 
 ## Mapa do repositório
 
